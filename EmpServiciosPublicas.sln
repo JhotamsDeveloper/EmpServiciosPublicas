@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A1325743-68F7-4CF6-9210-90C2CF952487}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{EE715A44-D9BD-4A14-A92B-E85D07EDB787}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9A01FF39-7200-4D19-88CA-C5E943BD5E16}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "collection_postman", "collection_postman", "{863137FC-7599-4151-855B-E0AC4FCC5013}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{B93B0781-5146-4470-B1B3-B97461380D0E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{11C2A3A4-F3AB-4CE7-B3F3-9B9198E508C6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{17C818A9-CA0C-4C90-A526-9972F25FEAB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmpServicioPublicos.Domain", "EmpServicioPublicos.Domain\EmpServicioPublicos.Domain.csproj", "{6DF8206D-A12A-4939-9632-BFA61E242FAF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6DF8206D-A12A-4939-9632-BFA61E242FAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DF8206D-A12A-4939-9632-BFA61E242FAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DF8206D-A12A-4939-9632-BFA61E242FAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DF8206D-A12A-4939-9632-BFA61E242FAF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B93B0781-5146-4470-B1B3-B97461380D0E} = {A1325743-68F7-4CF6-9210-90C2CF952487}
+		{11C2A3A4-F3AB-4CE7-B3F3-9B9198E508C6} = {A1325743-68F7-4CF6-9210-90C2CF952487}
+		{17C818A9-CA0C-4C90-A526-9972F25FEAB0} = {A1325743-68F7-4CF6-9210-90C2CF952487}
+		{6DF8206D-A12A-4939-9632-BFA61E242FAF} = {11C2A3A4-F3AB-4CE7-B3F3-9B9198E508C6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B61E3C90-333F-4049-9278-44CCA9AF3E83}
+	EndGlobalSection
+EndGlobal
