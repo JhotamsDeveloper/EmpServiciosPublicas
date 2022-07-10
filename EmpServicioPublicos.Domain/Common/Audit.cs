@@ -1,8 +1,9 @@
 ﻿namespace EmpServicioPublicos.Domain.Common
 {
-    public class BaseDomainModel
+    public abstract class Audit
     {
         public int Id { get; set; }
+        public bool Status { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string? CreateBy { get; set; }
         public DateTime? LastModifiedDate { get; set; }
