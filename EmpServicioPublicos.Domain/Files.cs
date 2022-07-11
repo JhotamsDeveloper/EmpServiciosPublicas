@@ -2,7 +2,7 @@
 
 namespace EmpServiciosPublicos.Domain
 {
-    public class Files: Audit
+    public class Storage: Audit
     {
         public string NameFile { get; set; }
         public string RouteFile { get; set; }
