@@ -1,6 +1,6 @@
-﻿using EmpServicioPublicos.Domain.Common;
+﻿using EmpServiciosPublicos.Domain.Common;
 
-namespace EmpServicioPublicos.Domain
+namespace EmpServiciosPublicos.Domain
 {
     public class PQRSD: BaseDomain
     {
@@ -13,7 +13,8 @@ namespace EmpServicioPublicos.Domain
         public string? Phone { get; set; }
         public string? CellPhone { get; set; }
 
-        public string PQRSDType { get; set; }
+        public string? PQRSDType { get; set; }
+        public string Ref { get; set; }
 
         public string? Reply { get; set; }
         public string? PQRSDStatus { get; set; }

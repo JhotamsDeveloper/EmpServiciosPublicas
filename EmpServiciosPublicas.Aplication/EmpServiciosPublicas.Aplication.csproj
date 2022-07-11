@@ -7,12 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EmpServicioPublicos.Domain\EmpServicioPublicos.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Behaviours\" />
-    <Folder Include="Features\PQRSD\Commands\" />
+    <ProjectReference Include="..\EmpServicioPublicos.Domain\EmpServiciosPublicos.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

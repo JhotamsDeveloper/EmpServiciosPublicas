@@ -1,4 +1,4 @@
-﻿using EmpServicioPublicos.Domain;
+﻿using EmpServiciosPublicos.Domain;
 
 namespace EmpServiciosPublicas.Aplication.Contracts.Persistence
 {

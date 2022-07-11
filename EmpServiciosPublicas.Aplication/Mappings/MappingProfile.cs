@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
-using EmpServicioPublicos.Domain;
-using EmpServiciosPublicas.Aplication.Features.PQRSD.Queries.GetPQRSDByCategory;
+using EmpServiciosPublicos.Domain;
+using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous;
+using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymous;
+using EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetByCategory;
 
 namespace EmpServiciosPublicas.Aplication.Mappings
 {
-    public class MappingProfile: Profile
+    public class MappingProfile : Profile
     {
         public MappingProfile()
         {
-            CreateMap<PQRSD, PqrsdMv>();
+            CreateMap<PQRSD, PqrsdMv>().ReverseMap();
+            CreateMap<PQRSD, CreateAnonymousCommand>().ReverseMap();
         }
     }
 }

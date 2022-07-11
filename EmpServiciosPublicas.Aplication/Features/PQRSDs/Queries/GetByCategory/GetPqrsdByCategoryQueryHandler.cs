@@ -2,7 +2,7 @@
 using EmpServiciosPublicas.Aplication.Contracts.Persistence;
 using MediatR;
 
-namespace EmpServiciosPublicas.Aplication.Features.PQRSD.Queries.GetPQRSDByCategory
+namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetByCategory
 {
     public class GetPqrsdByCategoryQueryHandler : IRequestHandler<GetPqrsdByCategoryQuery, List<PqrsdMv>>
     {

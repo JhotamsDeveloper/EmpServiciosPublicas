@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace EmpServiciosPublicas.Aplication.Features.PQRSD.Queries.GetPQRSDByCategory
+namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetByCategory
 {
     public class GetPqrsdByCategoryQuery: IRequest<List<PqrsdMv>>
     {

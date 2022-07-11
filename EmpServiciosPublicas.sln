@@ -17,13 +17,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{11C2A3A4-F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{17C818A9-CA0C-4C90-A526-9972F25FEAB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmpServicioPublicos.Domain", "EmpServicioPublicos.Domain\EmpServicioPublicos.Domain.csproj", "{6DF8206D-A12A-4939-9632-BFA61E242FAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmpServiciosPublicos.Domain", "EmpServicioPublicos.Domain\EmpServiciosPublicos.Domain.csproj", "{6DF8206D-A12A-4939-9632-BFA61E242FAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmpServiciosPublicas.Api", "EmpServiciosPublicas.Api\EmpServiciosPublicas.Api.csproj", "{F1596001-AB89-4E45-A08A-76CC9F2A7ACF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmpServiciosPublicas.Api", "EmpServiciosPublicas.Api\EmpServiciosPublicas.Api.csproj", "{F1596001-AB89-4E45-A08A-76CC9F2A7ACF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmpServiciosPublicas.Aplication", "EmpServiciosPublicas.Aplication\EmpServiciosPublicas.Aplication.csproj", "{2FD577A2-54C6-4F0F-AF36-2B948030692B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmpServiciosPublicas.Aplication", "EmpServiciosPublicas.Aplication\EmpServiciosPublicas.Aplication.csproj", "{2FD577A2-54C6-4F0F-AF36-2B948030692B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmpServiciosPublicas.Infrastructure", "EmpServiciosPublicas.Infrastructure\EmpServiciosPublicas.Infrastructure.csproj", "{CC0FACA8-0096-4F00-88B3-C9F082CC6FC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmpServiciosPublicas.Infrastructure", "EmpServiciosPublicas.Infrastructure\EmpServiciosPublicas.Infrastructure.csproj", "{CC0FACA8-0096-4F00-88B3-C9F082CC6FC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

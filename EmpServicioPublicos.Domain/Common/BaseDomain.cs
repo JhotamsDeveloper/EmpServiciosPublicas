@@ -1,4 +1,4 @@
-﻿namespace EmpServicioPublicos.Domain.Common
+﻿namespace EmpServiciosPublicos.Domain.Common
 {
     public abstract class BaseDomain : Audit
     {

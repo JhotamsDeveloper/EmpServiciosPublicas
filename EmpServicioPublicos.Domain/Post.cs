@@ -1,6 +1,6 @@
-﻿using EmpServicioPublicos.Domain.Common;
+﻿using EmpServiciosPublicos.Domain.Common;
 
-namespace EmpServicioPublicos.Domain
+namespace EmpServiciosPublicos.Domain
 {
     public class Post: BaseDomain
     {
