@@ -13,6 +13,6 @@ namespace EmpServiciosPublicas.Aplication.Contracts.Persistence
         Task<T> GetByIdAsync(int id);
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(T entity);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(T entity);
     }
 }
