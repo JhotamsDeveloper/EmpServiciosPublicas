@@ -2,8 +2,8 @@
 {
     public abstract class BaseDomain : Audit
     {
-        public string Title { get; set; }
-        public string Url { get; set; }
-        public string Descrption { get; set; }
+        public string? Title { get; set; }
+        public string? Url { get; set; }
+        public string? Descrption { get; set; }
     }
 }
