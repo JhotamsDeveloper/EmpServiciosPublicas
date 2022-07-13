@@ -1,4 +1,4 @@
-﻿namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetByCategory
+﻿namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetPqrsdByTypePqrsd
 {
     public class PqrsdMv
     {

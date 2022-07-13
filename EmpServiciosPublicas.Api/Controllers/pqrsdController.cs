@@ -1,4 +1,4 @@
-﻿using EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetByCategory;
+﻿using EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetPqrsdByTypePqrsd;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -16,11 +16,11 @@ namespace EmpServiciosPublicas.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{category}", Name = "getPqrsdByCategory")]
+        [HttpGet("{typePqrsd}", Name = "GetPqrsdByTypePqrsd")]
         [ProducesResponseType(typeof(IEnumerable<PqrsdMv>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IEnumerable<PqrsdMv>>> GetPqrsdByCategory(string category)
+        public async Task<ActionResult<IEnumerable<PqrsdMv>>> GetPqrsdByTypePqrsd(string typePqrsd)
         {
-            var query = new GetPqrsdByCategoryQuery(category);
+            var query = new GetPqrsdByTypePqrsdQuery(typePqrsd);
             var result = await _mediator.Send(query);
             return Ok(result);
         }

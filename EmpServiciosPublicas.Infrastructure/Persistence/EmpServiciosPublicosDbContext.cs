@@ -34,7 +34,6 @@ namespace EmpServiciosPublicas.Infrastructure.Persistence
 
         public DbSet<Bidding> Biddings { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Document> Documents { get; set; }
         public DbSet<Storage> Storages { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<PQRSD> PQRSDs { get; set; }

@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using EmpServiciosPublicos.Domain;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous;
-using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymous;
-using EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetByCategory;
+using EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetPqrsdByTypePqrsd;
+using EmpServiciosPublicos.Domain;
 
 namespace EmpServiciosPublicas.Aplication.Mappings
 {
