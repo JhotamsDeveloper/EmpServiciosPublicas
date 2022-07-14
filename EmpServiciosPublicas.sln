@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmpServiciosPublicas.Aplica
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmpServiciosPublicas.Infrastructure", "EmpServiciosPublicas.Infrastructure\EmpServiciosPublicas.Infrastructure.csproj", "{CC0FACA8-0096-4F00-88B3-C9F082CC6FC7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmpServiciosPublicas.Infrastructure.Identity", "EmpServiciosPublicas.Infrastructure.Identity\EmpServiciosPublicas.Infrastructure.Identity.csproj", "{901C6DDB-4DDD-4BF5-85FF-304D21A30EAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{CC0FACA8-0096-4F00-88B3-C9F082CC6FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC0FACA8-0096-4F00-88B3-C9F082CC6FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC0FACA8-0096-4F00-88B3-C9F082CC6FC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{901C6DDB-4DDD-4BF5-85FF-304D21A30EAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{901C6DDB-4DDD-4BF5-85FF-304D21A30EAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{901C6DDB-4DDD-4BF5-85FF-304D21A30EAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{901C6DDB-4DDD-4BF5-85FF-304D21A30EAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{F1596001-AB89-4E45-A08A-76CC9F2A7ACF} = {B93B0781-5146-4470-B1B3-B97461380D0E}
 		{2FD577A2-54C6-4F0F-AF36-2B948030692B} = {11C2A3A4-F3AB-4CE7-B3F3-9B9198E508C6}
 		{CC0FACA8-0096-4F00-88B3-C9F082CC6FC7} = {17C818A9-CA0C-4C90-A526-9972F25FEAB0}
+		{901C6DDB-4DDD-4BF5-85FF-304D21A30EAE} = {17C818A9-CA0C-4C90-A526-9972F25FEAB0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B61E3C90-333F-4049-9278-44CCA9AF3E83}
