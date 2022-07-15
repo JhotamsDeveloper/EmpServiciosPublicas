@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EmpServiciosPublicas.Aplication\EmpServiciosPublicas.Aplication.csproj" />
+    <ProjectReference Include="..\EmpServiciosPublicas.Infrastructure.Identity\EmpServiciosPublicas.Infrastructure.Identity.csproj" />
     <ProjectReference Include="..\EmpServiciosPublicas.Infrastructure\EmpServiciosPublicas.Infrastructure.csproj" />
   </ItemGroup>
 

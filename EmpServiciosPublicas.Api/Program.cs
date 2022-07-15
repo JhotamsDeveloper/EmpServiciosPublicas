@@ -1,5 +1,6 @@
 using EmpServiciosPublicas.Aplication;
 using EmpServiciosPublicas.Infrastructure;
+using EmpServiciosPublicas.Infrastructure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
+builder.Services.ConfigureIdentityServices(builder.Configuration);
+
+builder.Services.AddCors( option =>
+{
+    option.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin()
+    .AllowAnyHeader()
+    .AllowAnyHeader());
+});
 
 var app = builder.Build();
 
@@ -24,7 +33,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
+app.UseCors("CorsPolicy");
 
 app.MapControllers();
 

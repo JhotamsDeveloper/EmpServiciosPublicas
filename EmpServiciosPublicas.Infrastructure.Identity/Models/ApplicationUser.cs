@@ -2,7 +2,7 @@
 
 namespace EmpServiciosPublicas.Infrastructure.Identity.Models
 {
-    public class AplicationUser: IdentityUser
+    public class ApplicationUser: IdentityUser
     {
         public string Name { get; set; }
         public string Surnames { get; set; }

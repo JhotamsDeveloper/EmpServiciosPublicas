@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EmpServiciosPublicas.Infrastructure.Identity.Configurations
 {
-    public class UserConfiguration : IEntityTypeConfiguration<AplicationUser>
+    public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
-        public void Configure(EntityTypeBuilder<AplicationUser> builder)
+        public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
-            var hasher = new PasswordHasher<AplicationUser>();
+            var hasher = new PasswordHasher<ApplicationUser>();
 
             builder.HasData(
-                new AplicationUser
+                new ApplicationUser
                 {
                     Id = "ceeab6a9-228d-495e-bd39-b38eec5c2c29",
                     Email = "admin@localhost.com",
@@ -25,7 +25,7 @@ namespace EmpServiciosPublicas.Infrastructure.Identity.Configurations
                     EmailConfirmed = true
 
                 },
-                new AplicationUser
+                new ApplicationUser
                 {
                     Id = "92eaa36d-a589-4bc7-8db7-7428a1592cec",
                     Email = "alexa@localhost.com",
