@@ -1,3 +1,4 @@
+using EmpServiciosPublicas.Api.Middleware;
 using EmpServiciosPublicas.Aplication;
 using EmpServiciosPublicas.Infrastructure;
 using EmpServiciosPublicas.Infrastructure.Identity;
@@ -31,6 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
