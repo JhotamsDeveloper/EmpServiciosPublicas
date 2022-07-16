@@ -1,6 +1,6 @@
 ﻿namespace EmpServiciosPublicas.Aplication.Models.Identity
 {
-    public class RegistrationRequest
+    public class RegisterRequest
     {
         public string Name { get; set; } = string.Empty;
         public string Surnames { get; set; } = string.Empty;

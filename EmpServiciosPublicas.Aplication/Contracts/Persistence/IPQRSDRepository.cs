@@ -6,7 +6,7 @@ namespace EmpServiciosPublicas.Aplication.Contracts.Persistence
     {
         Task CreateAnonymousPQRSD(PQRSD pqrsd);
         Task CreatePQRSD(PQRSD pqrsd);
-        Task<IEnumerable<PQRSD>> GetPQRSDByCategory(string typePqrsd);
+        Task<IEnumerable<PQRSD>> GetByType(string typePqrsd);
         Task<PQRSD> GetPQRSDByName(string name);
     }
 }

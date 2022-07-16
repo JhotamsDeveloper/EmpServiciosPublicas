@@ -22,7 +22,7 @@ namespace EmpServiciosPublicas.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<PQRSD>> GetPQRSDByCategory(string typePqrsd) =>
+        public async Task<IEnumerable<PQRSD>> GetByType(string typePqrsd) =>
             await _context.PQRSDs!.Where(x => x.PQRSDType == typePqrsd).ToListAsync();
 
 

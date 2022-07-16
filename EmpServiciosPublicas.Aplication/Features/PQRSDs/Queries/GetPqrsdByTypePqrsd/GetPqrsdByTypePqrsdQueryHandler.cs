@@ -17,7 +17,7 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetPqrsdByType
 
         public async Task<List<PqrsdMv>> Handle(GetPqrsdByTypePqrsdQuery request, CancellationToken cancellationToken)
         {
-            var listPqrsd = await _pqrsdRepository.GetPQRSDByCategory(request.TypePqrsd);
+            var listPqrsd = await _pqrsdRepository.GetByType(request.TypePqrsd);
             return _mapper.Map<List<PqrsdMv>>(listPqrsd);
         }
     }

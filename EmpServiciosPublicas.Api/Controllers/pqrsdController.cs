@@ -1,5 +1,6 @@
 ﻿using EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetPqrsdByTypePqrsd;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -16,7 +17,8 @@ namespace EmpServiciosPublicas.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{typePqrsd}", Name = "GetPqrsdByTypePqrsd")]
+        [HttpGet("{typePqrsd}", Name = "GetByType")]
+        [Authorize(Roles = "Administrator")]
         [ProducesResponseType(typeof(IEnumerable<PqrsdMv>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<PqrsdMv>>> GetPqrsdByTypePqrsd(string typePqrsd)
         {

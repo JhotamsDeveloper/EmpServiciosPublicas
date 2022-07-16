@@ -50,7 +50,7 @@ namespace EmpServiciosPublicas.Infrastructure.Identity.Services
             return authResponse;
         }
 
-        public async Task<RegistrationResponse> Register(RegistrationRequest request)
+        public async Task<RegisterResponse> Register(RegisterRequest request)
         {
             ApplicationUser userExists = await _userManager.FindByNameAsync(request.Email);
             if (userExists == null)
@@ -78,7 +78,7 @@ namespace EmpServiciosPublicas.Infrastructure.Identity.Services
             {
                 await _userManager.AddToRoleAsync(user, "Operator");
                 JwtSecurityToken token = await GenerateToken(user);
-                return new RegistrationResponse
+                return new RegisterResponse
                 {
                     UserId = user.Id,
                     Email = user.Email,
