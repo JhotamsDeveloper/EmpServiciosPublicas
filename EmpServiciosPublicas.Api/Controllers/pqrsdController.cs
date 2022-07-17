@@ -1,4 +1,5 @@
-﻿using EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetPqrsdByTypePqrsd;
+﻿using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous;
+using EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetPqrsdByTypePqrsd;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,15 @@ namespace EmpServiciosPublicas.Api.Controllers
         public PqrsdController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+
+        [HttpPost(Name = "CreateAnonymousPQRSD")]
+        //[Authorize(Roles = "Administrator")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult<string>> CreateAnonymousPQRSD([FromBody] CreateAnonymousCommand command)
+        {
+            return await _mediator.Send(command);
         }
 
         [HttpGet("{typePqrsd}", Name = "GetByType")]

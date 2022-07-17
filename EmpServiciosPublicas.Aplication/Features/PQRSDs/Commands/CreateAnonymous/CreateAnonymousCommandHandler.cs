@@ -9,14 +9,15 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
 {
     public class CreateAnonymousCommandHandler : IRequestHandler<CreateAnonymousCommand, string>
     {
-        private readonly IPQRSDRepository _ipqrsdRepository;
+        //private readonly IPQRSDRepository _ipqrsdRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<CreateAnonymousCommandHandler> _logger;
         private readonly IEmailService _emailService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateAnonymousCommandHandler(IPQRSDRepository ipqrsdRepository, IMapper mapper, ILogger<CreateAnonymousCommandHandler> logger, IEmailService emailService)
+        public CreateAnonymousCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateAnonymousCommandHandler> logger, IEmailService emailService)
         {
-            _ipqrsdRepository = ipqrsdRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
             _emailService = emailService;
@@ -28,15 +29,23 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
             PQRSD pqrsdEntity = _mapper.Map<PQRSD>(request);
 
             pqrsdEntity.Ref = $"{pqrsdEntity.PQRSDType}-{ tickes:D20}";
-            pqrsdEntity.Url = $"{pqrsdEntity.Title.Replace(" ", "")}";
+            pqrsdEntity.Url = string.Join("-", pqrsdEntity.Title.Split('@', ',', '.', ';', '\'', ' ')).ToLower();
             pqrsdEntity.PQRSDStatus = "Create";
 
-            PQRSD newPqrsd = await _ipqrsdRepository.AddAsync(pqrsdEntity);
-            string message = $"The PQRSD has been created successfully; ticker {newPqrsd.Ref}";
-            _logger.LogInformation(message);
+            _unitOfWork.PQRSDRepository.AddEntity(pqrsdEntity);
+            int result = await _unitOfWork.Complete();
+
+            if (result <= 0)
+            {
+                string message = "No se pudo insertar el PQRSD correctamente";
+                _logger.LogError(message);
+                throw new Exception(message);
+            }
 
             //Envios de correo electrónico
-            return newPqrsd.Ref;
+            //....
+
+            return pqrsdEntity.Ref;
         }
     }
 }

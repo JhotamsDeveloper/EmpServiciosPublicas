@@ -16,5 +16,6 @@ namespace EmpServiciosPublicas.Aplication.Exceptions
             Errors = failures.GroupBy(e => e.PropertyName, e => e.ErrorMessage)
                 .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
         }
+
     }
 }

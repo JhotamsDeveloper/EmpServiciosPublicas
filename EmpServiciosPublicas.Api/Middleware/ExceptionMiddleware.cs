@@ -1,4 +1,5 @@
-﻿using EmpServiciosPublicas.Aplication.Exceptions;
+﻿using EmpServiciosPublicas.Api.Error;
+using EmpServiciosPublicas.Aplication.Exceptions;
 using Newtonsoft.Json;
 using System.Net;
 
@@ -59,6 +60,8 @@ namespace EmpServiciosPublicas.Api.Middleware
                 await context.Response.WriteAsync(result);
 
             }
+
         }
+
     }
 }

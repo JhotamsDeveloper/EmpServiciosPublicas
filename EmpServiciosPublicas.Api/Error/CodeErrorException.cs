@@ -1,4 +1,4 @@
-﻿namespace EmpServiciosPublicas.Api.Middleware
+﻿namespace EmpServiciosPublicas.Api.Error
 {
     public class CodeErrorException : CodeErrorResponse
     {

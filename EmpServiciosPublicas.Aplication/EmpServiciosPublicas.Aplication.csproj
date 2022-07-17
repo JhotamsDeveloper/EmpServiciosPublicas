@@ -19,4 +19,10 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Bidding\Commands\Delete\" />
+    <Folder Include="Features\Bidding\Commands\Update\" />
+    <Folder Include="Features\Bidding\Queries\" />
+  </ItemGroup>
+
 </Project>
