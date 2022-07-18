@@ -11,7 +11,7 @@
         public string? Phone { get; set; }
         public string? CellPhone { get; set; }
 
-        public string PQRSDType { get; set; }
+        public string? PQRSDType { get; set; }
 
         public string? Reply { get; set; }
         public string? PQRSDStatus { get; set; }

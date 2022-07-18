@@ -20,6 +20,8 @@ namespace EmpServiciosPublicas.Infrastructure.Repositories
             _context = context;
         }
 
+        public EmpServiciosPublicosDbContext EmpServiciosPublicosDbContext => _context;
+
         public async Task<int> Complete()
         {
             return await _context.SaveChangesAsync();

@@ -23,7 +23,8 @@ namespace EmpServiciosPublicas.Aplication.Features.Bidding.Commands.Create
         {
             modelEntity.Bidding biddingEntity = _mapper.Map<modelEntity.Bidding>(request);
 
-            biddingEntity.Url = string.Join("-", biddingEntity.Title.Split('@', ',', '.', ';', '\'',' ')).ToLower();
+            string _url = string.Join("-", biddingEntity.Title.Split('@', ',', '.', ';', '\'', ' ')).ToLower();
+            biddingEntity.Url = _url;
 
             _unitOfWork.Repository<modelEntity.Bidding>().AddEntity(biddingEntity);
             var result = await _unitOfWork.Complete();
