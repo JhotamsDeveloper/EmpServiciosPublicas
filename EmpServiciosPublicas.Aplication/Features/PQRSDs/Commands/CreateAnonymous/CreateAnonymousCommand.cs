@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous
 {
@@ -8,5 +9,6 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
         public string Descrption { get; set; } = string.Empty;
         public string PQRSDType { get; set; } = string.Empty;
 
+        public ICollection<IFormFile>? Files { get; set; }
     }
 }

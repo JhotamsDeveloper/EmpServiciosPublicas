@@ -22,7 +22,7 @@ namespace EmpServiciosPublicas.Api.Controllers
         [HttpPost(Name = "CreateAnonymousPQRSD")]
         //[Authorize(Roles = "Administrator")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<string>> CreateAnonymousPQRSD([FromBody] CreateAnonymousCommand command)
+        public async Task<ActionResult<string>> CreateAnonymousPQRSD([FromForm] CreateAnonymousCommand command)
         {
             return await _mediator.Send(command);
         }
