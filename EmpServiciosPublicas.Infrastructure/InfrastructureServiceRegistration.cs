@@ -4,6 +4,7 @@ using EmpServiciosPublicas.Aplication.Models;
 using EmpServiciosPublicas.Infrastructure.Email;
 using EmpServiciosPublicas.Infrastructure.Persistence;
 using EmpServiciosPublicas.Infrastructure.Repositories;
+using EmpServiciosPublicas.Infrastructure.UploadFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +15,6 @@ namespace EmpServiciosPublicas.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-
             services.AddDbContext<EmpServiciosPublicosDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("ConnectionString")));
 
@@ -26,7 +26,7 @@ namespace EmpServiciosPublicas.Infrastructure
 
             services.Configure<EmailSettings>(c => configuration.GetSection("EmailSettings"));
             services.AddTransient<IEmailService, EmailService>();
-
+            services.AddTransient<IUploadFilesService, UploadFilesService>();
             return services;
         }
     }

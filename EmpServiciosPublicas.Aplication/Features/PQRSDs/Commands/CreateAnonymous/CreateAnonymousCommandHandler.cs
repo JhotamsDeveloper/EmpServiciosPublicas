@@ -4,23 +4,25 @@ using EmpServiciosPublicas.Aplication.Contracts.Insfrastructure;
 using EmpServiciosPublicas.Aplication.Contracts.Persistence;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using EmpServiciosPublicas.Aplication.Constants;
 
 namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous
 {
     public class CreateAnonymousCommandHandler : IRequestHandler<CreateAnonymousCommand, string>
     {
-        //private readonly IPQRSDRepository _ipqrsdRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<CreateAnonymousCommandHandler> _logger;
         private readonly IEmailService _emailService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUploadFilesService _uploadFilesService;
 
-        public CreateAnonymousCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateAnonymousCommandHandler> logger, IEmailService emailService)
+        public CreateAnonymousCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateAnonymousCommandHandler> logger, IEmailService emailService, IUploadFilesService uploadFilesService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
             _emailService = emailService;
+            _uploadFilesService = uploadFilesService;
         }
 
         public async Task<string> Handle(CreateAnonymousCommand request, CancellationToken cancellationToken)
@@ -29,18 +31,41 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
             PQRSD pqrsdEntity = _mapper.Map<PQRSD>(request);
 
             pqrsdEntity.Ref = $"{pqrsdEntity.PQRSDType}-{ tickes:D20}";
-            pqrsdEntity.Url = string.Join("-", pqrsdEntity.Title.Split('@', ',', '.', ';', '\'', ' ')).ToLower();
+            pqrsdEntity.Url = string.Join("-", pqrsdEntity.Title!.Split('@', ',', '.', ';', '\'', ' ')).ToLower();
             pqrsdEntity.PQRSDStatus = "Create";
 
             _unitOfWork.PQRSDRepository.AddEntity(pqrsdEntity);
-            int result = await _unitOfWork.Complete();
+            int idpqrsd = await _unitOfWork.Complete();
 
-            if (result <= 0)
+            string message;
+            if (idpqrsd <= 0)
             {
-                string message = "No se pudo insertar el PQRSD correctamente";
+                message = "No se pudo insertar el PQRSD correctamente";
                 _logger.LogError(message);
                 throw new Exception(message);
             }
+
+            if (request.Files == null)
+            {
+                message = "Es necesario adjuntar un documento relacionado a su petición";
+                _logger.LogError(message);
+                throw new Exception(message);
+            }
+
+            Request.
+            foreach (var file in request.Files)
+            {
+                var (nameFile, path) = await _uploadFilesService.UploadedFileAsync(file, ProcessType.PQRSD.ToString(), Folder.Documents.ToString());
+                Storage storage = new()
+                {
+                    PqrsdId = idpqrsd,
+                    NameFile = nameFile,
+                    RouteFile = path,
+                    Rol = Folder.Documents.ToString()
+                };
+                await _unitOfWork.Repository<Storage>().AddAsync(storage);
+            }
+
 
             //Envios de correo electrónico
             //....
