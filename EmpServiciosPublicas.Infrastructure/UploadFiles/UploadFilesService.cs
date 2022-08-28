@@ -35,8 +35,20 @@ namespace EmpServiciosPublicas.Infrastructure.UploadFiles
             }
             try
             {
+                path = Path.Combine(_hostingEnvironment.ContentRootPath, storage);
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                path = Path.Combine(_hostingEnvironment.ContentRootPath, storage, processType);
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                path = Path.Combine(_hostingEnvironment.ContentRootPath, storage, processType, folder);
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
                 path = Path.Combine(_hostingEnvironment.ContentRootPath, storage, processType, folder, uniqueFileName);
-                string filePath = Path.GetRandomFileName();
+
                 using var stream = File.Create(path);
                 await file.CopyToAsync(stream);
             }
@@ -44,8 +56,8 @@ namespace EmpServiciosPublicas.Infrastructure.UploadFiles
             {
                 throw new BadRequestException(ex.Message);
             }
-
-            return (uniqueFileName, path);
+            string routeName = $"{storage}/{processType}/{folder}/{uniqueFileName}";
+            return (uniqueFileName, routeName.ToLower());
         }
 
         public async Task<bool> DeleteUploadAsync(string nameFile, string processType, string folder)

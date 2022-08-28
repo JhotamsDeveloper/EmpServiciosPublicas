@@ -8,7 +8,7 @@ namespace EmpServiciosPublicas.Api.Middleware
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        private ILogger<ExceptionMiddleware> _logger;
+        private readonly ILogger<ExceptionMiddleware> _logger;
         private readonly IHostEnvironment _environment;
 
         public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IHostEnvironment environment)
@@ -33,7 +33,7 @@ namespace EmpServiciosPublicas.Api.Middleware
 
                 switch (ex)
                 {
-                    case NotFoundException notFoundException:
+                    case NotFoundException _:
                         statusCode = (int)HttpStatusCode.NotFound;
                         break;
 
@@ -43,7 +43,7 @@ namespace EmpServiciosPublicas.Api.Middleware
                         result = JsonConvert.SerializeObject(new CodeErrorException(statusCode, ex.Message, validationJson));
                         break;
 
-                    case BadRequestException badRequestException:
+                    case BadRequestException _:
                         statusCode = (int)HttpStatusCode.BadRequest;
                         break;
 
@@ -52,7 +52,16 @@ namespace EmpServiciosPublicas.Api.Middleware
                 }
 
                 if (string.IsNullOrEmpty(result))
-                    result = JsonConvert.SerializeObject(new CodeErrorException(statusCode, ex.Message, ex.StackTrace));
+                {
+                    if (_environment.IsDevelopment())
+                    {
+                        result = JsonConvert.SerializeObject(new CodeErrorException(statusCode, ex.Message, ex.StackTrace));
+                    }
+                    else
+                    {
+                        result = JsonConvert.SerializeObject(new CodeErrorException(statusCode, ex.Message));
+                    }
+                }
 
 
                 context.Response.StatusCode = statusCode;

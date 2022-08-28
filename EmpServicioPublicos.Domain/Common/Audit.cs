@@ -2,7 +2,7 @@
 {
     public abstract class Audit
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public bool Availability { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string? CreatedBy { get; set; }

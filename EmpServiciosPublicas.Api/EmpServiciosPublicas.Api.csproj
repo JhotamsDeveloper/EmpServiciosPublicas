@@ -20,8 +20,4 @@
     <ProjectReference Include="..\EmpServiciosPublicas.Infrastructure\EmpServiciosPublicas.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Storage\" />
-  </ItemGroup>
-
 </Project>

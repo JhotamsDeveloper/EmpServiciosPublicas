@@ -16,7 +16,8 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUploadFilesService _uploadFilesService;
 
-        public CreateAnonymousCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateAnonymousCommandHandler> logger, IEmailService emailService, IUploadFilesService uploadFilesService)
+        public CreateAnonymousCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateAnonymousCommandHandler> 
+            logger, IEmailService emailService, IUploadFilesService uploadFilesService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -65,7 +66,8 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
                     PqrsdId = idpqrsd,
                     NameFile = nameFile,
                     RouteFile = path,
-                    Rol = Folder.Documents.ToString()
+                    Rol = Folder.Documents.ToString(),
+                    Availability = true
                 };
                 await _unitOfWork.Repository<Storage>().AddAsync(storage);
             }
