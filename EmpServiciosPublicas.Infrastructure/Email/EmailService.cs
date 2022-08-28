@@ -3,13 +3,14 @@ using EmpServiciosPublicas.Aplication.Models;
 using Microsoft.Extensions.Logging;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using modelEmail = EmpServiciosPublicas.Aplication.Models.Email;
 
 namespace EmpServiciosPublicas.Infrastructure.Email
 {
     public class EmailService : IEmailService
     {
-        public EmailSettings _emailSettings { get; }
-        public ILogger<EmailService> _logger { get; }
+        private EmailSettings EmailSettings { get; }
+        private ILogger<EmailService> Logger { get; }
 
         public EmailService()
         {
@@ -18,14 +19,14 @@ namespace EmpServiciosPublicas.Infrastructure.Email
 
         public EmailService(EmailSettings emailSettings, ILogger<EmailService> logger)
         {
-            _emailSettings = emailSettings;
-            _logger = logger;
+            EmailSettings = emailSettings;
+            Logger = logger;
         }
 
 
-        public async Task<bool> SendEmail(Aplication.Models.Email email)
+        public async Task<bool> SendEmail(modelEmail email)
         {
-            var client = new SendGridClient(_emailSettings.ApiKey);
+            var client = new SendGridClient(EmailSettings.ApiKey);
 
             var subject = email.Subject;
             var to = new EmailAddress(email.To);
@@ -33,8 +34,8 @@ namespace EmpServiciosPublicas.Infrastructure.Email
 
             var from = new EmailAddress
             {
-                Email = _emailSettings.FromAddress,
-                Name = _emailSettings.FromName
+                Email = EmailSettings.FromAddress,
+                Name = EmailSettings.FromName
             };
 
             var sendGridMessage = MailHelper.CreateSingleEmail(from, to, subject, emailBody, emailBody);
@@ -45,7 +46,7 @@ namespace EmpServiciosPublicas.Infrastructure.Email
                 return true;
             }
 
-            _logger.LogError("El email no pudo enviarse, existen errores");
+            Logger.LogError("El email no pudo enviarse, existen errores");
             return false;
         }
     }

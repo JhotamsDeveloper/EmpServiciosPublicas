@@ -44,15 +44,19 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
                 _logger.LogError(message);
                 throw new Exception(message);
             }
-
-            if (request.Files == null)
+            else if (request.Files == null)
+            {
+                message = "Es necesario adjuntar un documento relacionado a su petición";
+                _logger.LogError(message);
+                throw new Exception(message);
+            }
+            else if (!request.Files.Any())
             {
                 message = "Es necesario adjuntar un documento relacionado a su petición";
                 _logger.LogError(message);
                 throw new Exception(message);
             }
 
-            Request.
             foreach (var file in request.Files)
             {
                 var (nameFile, path) = await _uploadFilesService.UploadedFileAsync(file, ProcessType.PQRSD.ToString(), Folder.Documents.ToString());
@@ -65,7 +69,6 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
                 };
                 await _unitOfWork.Repository<Storage>().AddAsync(storage);
             }
-
 
             //Envios de correo electrónico
             //....

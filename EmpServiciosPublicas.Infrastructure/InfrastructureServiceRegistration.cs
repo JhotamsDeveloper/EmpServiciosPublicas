@@ -27,6 +27,7 @@ namespace EmpServiciosPublicas.Infrastructure
             services.Configure<EmailSettings>(c => configuration.GetSection("EmailSettings"));
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IUploadFilesService, UploadFilesService>();
+
             return services;
         }
     }
