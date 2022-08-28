@@ -1,6 +1,5 @@
 ﻿using EmpServiciosPublicas.Aplication.Contracts.Insfrastructure;
 using EmpServiciosPublicas.Aplication.Exceptions;
-using EmpServiciosPublicas.Aplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
