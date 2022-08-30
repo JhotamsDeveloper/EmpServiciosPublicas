@@ -59,24 +59,20 @@ namespace EmpServiciosPublicas.Infrastructure.UploadFiles
             return (uniqueFileName, routeName.ToLower());
         }
 
-        public async Task<bool> DeleteUploadAsync(string nameFile, string processType, string folder)
+        public async Task DeleteUploadAsync(string nameFile, string processType, string folder)
         {
-            //string path = Path.Combine(_hostingEnvironment.WebRootPath, "Media" + "\\" + processType.ToString() + "\\" + folder.ToString());
-            //FileInfo fileInfo = new(path);
-            //if (fileInfo != null)
-            //{
-            //    System.IO.File.Delete(path);
-            //    fileInfo.Delete();
-            //    await Task.Yield();
-            //    return true;
-            //}
-            //else
-            //{
-            //    await Task.Yield();
-            //    return false;
-            //}
+            string storage = _configuration.GetSection("Storage:key").Value;
+            string path = Path.Combine(_hostingEnvironment.ContentRootPath, storage, processType, folder, nameFile);
 
-            return true;
+            try
+            {
+                await Task.Yield();
+                File.Delete(path);
+            }
+            catch (Exception ex)
+            {
+                throw new BadRequestException(ex.Message);
+            }
         }
     }
 }
