@@ -24,8 +24,8 @@ namespace EmpServiciosPublicas.Infrastructure.Repositories
             return await _context.Set<T>().Where(predicate).ToListAsync();
         }
 
-        public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeString = null, bool disableTracking = true)
+        public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>>? predicate = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string? includeString = null, bool disableTracking = true)
         {
 
             IQueryable<T> query = _context.Set<T>();
@@ -75,7 +75,6 @@ namespace EmpServiciosPublicas.Infrastructure.Repositories
         public async Task<T> AddAsync(T entity)
         {
             _ = await _context.Set<T>().AddAsync(entity);
-            await _context.SaveChangesAsync();
             return entity;
         }
 
@@ -83,14 +82,12 @@ namespace EmpServiciosPublicas.Infrastructure.Repositories
         {
             _context.Set<T>().Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
             return entity;
         }
 
         public async Task DeleteAsync(T entity)
         {
             _context.Set<T>().Remove(entity);
-            await _context.SaveChangesAsync();
         }
 
         public void AddEntity(T entity)

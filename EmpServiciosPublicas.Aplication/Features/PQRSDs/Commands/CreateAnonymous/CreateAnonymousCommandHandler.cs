@@ -3,6 +3,7 @@ using EmpServiciosPublicas.Aplication.Constants;
 using EmpServiciosPublicas.Aplication.Contracts.Insfrastructure;
 using EmpServiciosPublicas.Aplication.Contracts.Persistence;
 using EmpServiciosPublicas.Aplication.Exceptions;
+using EmpServiciosPublicas.Aplication.Handlers;
 using EmpServiciosPublicos.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -34,8 +35,19 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
 
         public async Task<string> Handle(CreateAnonymousCommand request, CancellationToken cancellationToken)
         {
+            string formats;
+            string nameFile; 
+            string path;
+            string[] formatsArray;
+
+            bool validateFiles;
+            bool validateFileSize;
+
+            int responseComplete;
+            long size;
             long tickes = DateTime.Now.Ticks;
-            PQRSD pqrsdEntity = _mapper.Map<PQRSD>(request);
+
+            PQRSD pqrsdEntity;
 
             if (request.Files == null)
             {
@@ -51,78 +63,57 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
                 throw new BadRequestException(message);
             }
 
-            string formats = _configuration.GetSection("Storage:DocumentsFormats").Value;
-            string[] formatsArray = formats.Split(',');
-            bool validateFiles = ValidateCorrectFileFormat(request.Files, formatsArray);
+            formats = _configuration.GetSection("Storage:DocumentsFormats").Value;
+            formatsArray = formats.Split(',');
+            validateFiles = request.Files.ValidateCorrectFileFormat(formatsArray);
             if (!validateFiles)
             {
                 _logger.LogError(message);
                 throw new BadRequestException($"Los documentos debe de contener alguna de estas extensiones {string.Join(" ", formatsArray)}");
             }
 
-            long size = long.Parse(_configuration.GetSection("Storage:Size").Value);
-            bool validateFileSize = ValidateFileSize(request.Files, size);
+            size = long.Parse(_configuration.GetSection("Storage:Size").Value);
+            validateFileSize = request.Files.ValidateFileSize(size);
             if (!validateFileSize)
             {
                 _logger.LogError(message);
                 throw new BadRequestException($"El tamaño de los documentos debe de contener máximo {size / 1048576} mb");
             }
 
+            pqrsdEntity = _mapper.Map<PQRSD>(request);
             pqrsdEntity.Ref = $"{pqrsdEntity.PQRSDType}_{tickes:D20}";
-            pqrsdEntity.Url = string.Join("-", pqrsdEntity.Title!.Split('@', ',', '.', ';', '\'', ' ')).ToLower();
+            pqrsdEntity.Url = pqrsdEntity!.Title!.Create();
             pqrsdEntity.PQRSDStatus = "Create";
 
             _unitOfWork.PQRSDRepository.AddEntity(pqrsdEntity);
-            int idpqrsd = await _unitOfWork.Complete();
+            responseComplete = await _unitOfWork.Complete();
 
-            if (idpqrsd <= 0)
+            if (responseComplete <= 0)
             {
                 message = "No fue posible crear un PQRSD correctamente";
                 _logger.LogError(message);
                 throw new BadRequestException(message);
             }
 
-
-            foreach (var file in request.Files)
+            foreach (IFormFile file in request.Files)
             {
-                var (nameFile, path) = await _uploadFilesService.UploadedFileAsync(file, ProcessType.PQRSD.ToString(), Folder.Documents.ToString());
+                (nameFile, path) = await _uploadFilesService.UploadedFileAsync(file, ProcessType.PQRSD.ToString(), Folder.Documents.ToString());
                 Storage storage = new()
                 {
-                    PqrsdId = idpqrsd,
+                    PqrsdId = pqrsdEntity.Id,
                     NameFile = nameFile,
                     RouteFile = path,
                     Rol = Folder.Documents.ToString(),
                     Availability = true
                 };
                 await _unitOfWork.Repository<Storage>().AddAsync(storage);
+                await _unitOfWork.Complete();
             }
 
             //Envios de correo electrónico
             //....
 
             return pqrsdEntity.Ref;
-        }
-
-
-        private static bool ValidateCorrectFileFormat(ICollection<IFormFile> files, string[] permittedExtensions)
-        {
-            foreach (var file in files)
-            {
-                var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
-                if (!(!string.IsNullOrEmpty(ext) && permittedExtensions.Contains(ext)))
-                    return false;
-            }
-            return true;
-        }
-
-        private static bool ValidateFileSize(ICollection<IFormFile> files, long size)
-        {
-            foreach (var file in files)
-            {
-                if (file.Length > size)
-                    return false;
-            }
-            return true;
         }
     }
 }
