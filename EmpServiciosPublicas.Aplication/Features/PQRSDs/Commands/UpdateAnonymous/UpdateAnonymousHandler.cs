@@ -20,7 +20,6 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
         private readonly IEmailService _emailService;
         private readonly IUploadFilesService _uploadFilesService;
         private readonly IConfiguration _configuration;
-        private string? message = null;
 
         public UpdateAnonymousHandler(IMapper mapper, ILogger<UpdateAnonymousHandler> logger, IEmailService emailService, IUnitOfWork unitOfWork, IUploadFilesService uploadFilesService, IConfiguration configuration)
         {
@@ -34,11 +33,11 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
 
         public async Task<Unit> Handle(UpdateAnonymousCommand request, CancellationToken cancellationToken)
         {
-
             string formats;
             string nameFile;
             string path;
             string[] formatsArray;
+            string message = string.Empty;
 
             bool validateFiles;
             bool validateFileSize;
@@ -48,24 +47,11 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
             long tickes = DateTime.Now.Ticks;
 
             PQRSD pqrsdUpdate;
-
-            if (request.Files == null)
-            {
-                message = "Es necesario adjuntar un documento relacionado a su petición";
-                _logger.LogError(message);
-                throw new BadRequestException(message);
-            }
-
-            if (!request.Files.Any())
-            {
-                message = "Es necesario adjuntar un documento relacionado a su petición";
-                _logger.LogError(message);
-                throw new BadRequestException(message);
-            }
+            IReadOnlyList<PQRSD> pqrsdOld;
 
             formats = _configuration.GetSection("Storage:DocumentsFormats").Value;
             formatsArray = formats.Split(',');
-            validateFiles = request.Files.ValidateCorrectFileFormat(formatsArray);
+            validateFiles = request.Files!.ValidateCorrectFileFormat(formatsArray);
             if (!validateFiles)
             {
                 _logger.LogError(message);
@@ -80,8 +66,8 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
                 throw new BadRequestException($"El tamaño de los documentos debe de contener máximo {size / 1048576} mb");
             }
 
-            var pqrsdOld = await _unitOfWork.Repository<PQRSD>().GetAsync(x => x.Id == request.Id, null, "Storages", true);
-            pqrsdUpdate = pqrsdOld.FirstOrDefault()!;
+            pqrsdOld = await _unitOfWork.Repository<PQRSD>().GetAsync(x => x.Id == request.Id, t => t.OrderByDescending(s => s.Id), "Storages", true);
+            pqrsdUpdate = pqrsdOld.FirstOrDefault();
 
             if (pqrsdUpdate == null)
                 throw new NotFoundException(nameof(PQRSD), request.Id);
@@ -99,8 +85,6 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
 
             //Otra forma de mappear
             _mapper.Map(request, pqrsdUpdate, typeof(UpdateAnonymousCommand), typeof(PQRSD));
-
-            pqrsdUpdate.Url = pqrsdUpdate!.Title!.Create();
             await _unitOfWork.Repository<PQRSD>().UpdateAsync(pqrsdUpdate);
             responseComplete = await _unitOfWork.Complete();
 

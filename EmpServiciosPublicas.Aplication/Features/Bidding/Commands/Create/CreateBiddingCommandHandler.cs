@@ -26,7 +26,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Bidding.Commands.Create
             string _url = string.Join("-", biddingEntity.Title.Split('@', ',', '.', ';', '\'', ' ')).ToLower();
             biddingEntity.Url = _url;
 
-            _unitOfWork.Repository<modelEntity.Bidding>().AddEntity(biddingEntity);
+            _unitOfWork.Repository<modelEntity.Bidding>().Add(biddingEntity);
             var result = await _unitOfWork.Complete();
 
             if (result <= 0)

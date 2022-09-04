@@ -24,7 +24,19 @@ namespace EmpServiciosPublicas.Infrastructure.Repositories
 
         public async Task<int> Complete()
         {
-            return await _context.SaveChangesAsync();
+            int result = 0;
+            using var dbContextTransaction = _context.Database.BeginTransaction();
+            try
+            {
+                result = await _context.SaveChangesAsync();
+                await dbContextTransaction.CommitAsync();
+
+            }
+            catch (Exception)
+            {
+                dbContextTransaction.Rollback();
+            }
+            return result;
         }
 
         public void Dispose()
@@ -48,7 +60,7 @@ namespace EmpServiciosPublicas.Infrastructure.Repositories
                 _repositories.Add(type, repositoryInstance);
             }
 
-            return (IAsyncRepository<TEntity>)_repositories[type];
+            return (IAsyncRepository<TEntity>)_repositories[type]!;
         }
     }
 }

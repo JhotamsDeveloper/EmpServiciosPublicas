@@ -15,8 +15,8 @@ namespace EmpServiciosPublicas.Aplication.Contracts.Persistence
         Task<T> UpdateAsync(T entity);
         Task DeleteAsync(T entity);
 
-        void AddEntity(T entity);
-        void UpdateEntity(T entity);
-        void DeleteEntity(T entity);
+        void Add(T entity);
+        void Update(T entity);
+        void Delete(T entity);
     }
 }

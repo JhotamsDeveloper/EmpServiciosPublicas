@@ -48,24 +48,11 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
             long tickes = DateTime.Now.Ticks;
 
             PQRSD pqrsdEntity;
-
-            if (request.Files == null)
-            {
-                message = "Es necesario adjuntar un documento relacionado a su petición";
-                _logger.LogError(message);
-                throw new BadRequestException(message);
-            }
-
-            if (!request.Files.Any())
-            {
-                message = "Es necesario adjuntar un documento relacionado a su petición";
-                _logger.LogError(message);
-                throw new BadRequestException(message);
-            }
+            Storage storage;
 
             formats = _configuration.GetSection("Storage:DocumentsFormats").Value;
             formatsArray = formats.Split(',');
-            validateFiles = request.Files.ValidateCorrectFileFormat(formatsArray);
+            validateFiles = request.Files!.ValidateCorrectFileFormat(formatsArray);
             if (!validateFiles)
             {
                 _logger.LogError(message);
@@ -73,7 +60,7 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
             }
 
             size = long.Parse(_configuration.GetSection("Storage:Size").Value);
-            validateFileSize = request.Files.ValidateFileSize(size);
+            validateFileSize = request.Files!.ValidateFileSize(size);
             if (!validateFileSize)
             {
                 _logger.LogError(message);
@@ -85,9 +72,8 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
             pqrsdEntity.Url = pqrsdEntity!.Title!.Create();
             pqrsdEntity.PQRSDStatus = "Create";
 
-            _unitOfWork.PQRSDRepository.AddEntity(pqrsdEntity);
+            _unitOfWork.PQRSDRepository.Add(pqrsdEntity);
             responseComplete = await _unitOfWork.Complete();
-
             if (responseComplete <= 0)
             {
                 message = "No fue posible crear un PQRSD correctamente";
@@ -98,7 +84,7 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
             foreach (IFormFile file in request.Files)
             {
                 (nameFile, path) = await _uploadFilesService.UploadedFileAsync(file, ProcessType.PQRSD.ToString(), Folder.Documents.ToString());
-                Storage storage = new()
+                storage = new()
                 {
                     PqrsdId = pqrsdEntity.Id,
                     NameFile = nameFile,
@@ -109,6 +95,10 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
                 await _unitOfWork.Repository<Storage>().AddAsync(storage);
                 await _unitOfWork.Complete();
             }
+
+
+
+
 
             //Envios de correo electrónico
             //....

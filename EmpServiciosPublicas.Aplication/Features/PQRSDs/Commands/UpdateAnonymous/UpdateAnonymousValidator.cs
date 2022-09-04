@@ -17,6 +17,9 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
             RuleFor(r => r.PQRSDType)
                 .Length(3, 20).WithMessage("{PropertyName} tiene {TotalLength} letras. Debe tener una longitud entre {MinLength} y {MaxLength} letras.")
                 .NotEmpty().WithMessage("No ha indicado el tipo de la pqrsd.");
+
+            RuleFor(r => r.Files)
+                .NotNull().WithMessage("Es necesario adjuntar un documento relacionado a su petición.");
         }
     }
 }
