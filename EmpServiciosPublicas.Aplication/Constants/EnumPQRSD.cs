@@ -2,10 +2,10 @@
 {
     public enum EnumPQRSD
     {
-        Peticiones,
-        Quejas,
-        Reclamos,
-        Sugerencias,
-        Denuncias
+        Peticione,
+        Queja,
+        Reclamo,
+        Sugerencia,
+        Denuncia
     }
 }
