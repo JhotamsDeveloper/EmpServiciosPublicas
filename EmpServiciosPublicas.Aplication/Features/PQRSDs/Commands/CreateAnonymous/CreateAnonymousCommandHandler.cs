@@ -50,7 +50,6 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
 
             int responseComplete;
             long size;
-            long tickes = DateTime.Now.Ticks;
 
             PQRSD pqrsdEntity;
             Storage storage;
@@ -72,7 +71,7 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
             }
 
             pqrsdEntity = _mapper.Map<PQRSD>(request);
-            pqrsdEntity.Ref = $"{pqrsdEntity.PQRSDType}_{tickes:D20}";
+            pqrsdEntity.Ref = pqrsdEntity.Type!.GenericReference();
             pqrsdEntity.Url = pqrsdEntity!.Title!.Create();
             pqrsdEntity.PQRSDStatus = "Create";
 

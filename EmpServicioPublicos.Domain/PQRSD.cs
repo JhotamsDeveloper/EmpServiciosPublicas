@@ -18,7 +18,7 @@ namespace EmpServiciosPublicos.Domain
         public string? Phone { get; set; }
         public string? CellPhone { get; set; }
 
-        public string? PQRSDType { get; set; }
+        public string? Type { get; set; }
         public string? Ref { get; set; }
 
         public string? Reply { get; set; }

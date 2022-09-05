@@ -23,7 +23,7 @@ namespace EmpServiciosPublicas.Infrastructure.Repositories
         }
 
         public async Task<IEnumerable<PQRSD>> GetByType(string typePqrsd) =>
-            await _context.PQRSDs!.Where(x => x.PQRSDType == typePqrsd).ToListAsync();
+            await _context.PQRSDs!.Where(x => x.Type == typePqrsd).ToListAsync();
 
 
         public async Task<PQRSD> GetPQRSDByName(string name) => 

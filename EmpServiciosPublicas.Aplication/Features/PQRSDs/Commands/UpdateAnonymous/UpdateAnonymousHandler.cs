@@ -4,11 +4,12 @@ using EmpServiciosPublicas.Aplication.Contracts.Insfrastructure;
 using EmpServiciosPublicas.Aplication.Contracts.Persistence;
 using EmpServiciosPublicas.Aplication.Exceptions;
 using EmpServiciosPublicas.Aplication.Handlers;
+using EmpServiciosPublicas.Aplication.Models;
 using EmpServiciosPublicos.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymous
 {
@@ -19,21 +20,20 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
         private readonly ILogger<UpdateAnonymousHandler> _logger;
         private readonly IEmailService _emailService;
         private readonly IUploadFilesService _uploadFilesService;
-        private readonly IConfiguration _configuration;
+        private readonly StorageSetting _storageSetting;
 
-        public UpdateAnonymousHandler(IMapper mapper, ILogger<UpdateAnonymousHandler> logger, IEmailService emailService, IUnitOfWork unitOfWork, IUploadFilesService uploadFilesService, IConfiguration configuration)
+        public UpdateAnonymousHandler(IMapper mapper, ILogger<UpdateAnonymousHandler> logger, IEmailService emailService, IUnitOfWork unitOfWork, IUploadFilesService uploadFilesService, IOptions<StorageSetting> storageSetting)
         {
             _mapper = mapper;
             _logger = logger;
             _emailService = emailService;
             _unitOfWork = unitOfWork;
             _uploadFilesService = uploadFilesService;
-            _configuration = configuration;
+            _storageSetting = storageSetting.Value;
         }
 
         public async Task<Unit> Handle(UpdateAnonymousCommand request, CancellationToken cancellationToken)
         {
-            string formats;
             string nameFile;
             string path;
             string[] formatsArray;
@@ -49,8 +49,7 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
             PQRSD pqrsdUpdate;
             IReadOnlyList<PQRSD> pqrsdOld;
 
-            formats = _configuration.GetSection("Storage:DocumentsFormats").Value;
-            formatsArray = formats.Split(',');
+            formatsArray = _storageSetting.DocumentsFormats.Split(',');
             validateFiles = request.Files!.ValidateCorrectFileFormat(formatsArray);
             if (!validateFiles)
             {
@@ -58,8 +57,8 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
                 throw new BadRequestException($"Los documentos debe de contener alguna de estas extensiones {string.Join(" ", formatsArray)}");
             }
 
-            size = long.Parse(_configuration.GetSection("Storage:Size").Value);
-            validateFileSize = request.Files.ValidateFileSize(size);
+            size = long.Parse(_storageSetting.Size);
+            validateFileSize = request.Files!.ValidateFileSize(size);
             if (!validateFileSize)
             {
                 _logger.LogError(message);
@@ -85,6 +84,7 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
 
             //Otra forma de mappear
             _mapper.Map(request, pqrsdUpdate, typeof(UpdateAnonymousCommand), typeof(PQRSD));
+            pqrsdUpdate.PQRSDStatus = "Update";
             await _unitOfWork.Repository<PQRSD>().UpdateAsync(pqrsdUpdate);
             responseComplete = await _unitOfWork.Complete();
 

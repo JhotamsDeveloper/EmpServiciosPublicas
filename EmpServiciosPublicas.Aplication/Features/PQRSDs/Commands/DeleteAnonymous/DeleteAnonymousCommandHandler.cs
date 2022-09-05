@@ -3,8 +3,6 @@ using EmpServiciosPublicas.Aplication.Constants;
 using EmpServiciosPublicas.Aplication.Contracts.Insfrastructure;
 using EmpServiciosPublicas.Aplication.Contracts.Persistence;
 using EmpServiciosPublicas.Aplication.Exceptions;
-using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymous;
-using EmpServiciosPublicas.Aplication.Handlers;
 using EmpServiciosPublicos.Domain;
 using MediatR;
 using Microsoft.Extensions.Configuration;
