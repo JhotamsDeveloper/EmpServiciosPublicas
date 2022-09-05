@@ -4,11 +4,15 @@ using EmpServiciosPublicas.Aplication.Contracts.Insfrastructure;
 using EmpServiciosPublicas.Aplication.Contracts.Persistence;
 using EmpServiciosPublicas.Aplication.Exceptions;
 using EmpServiciosPublicas.Aplication.Handlers;
+using EmpServiciosPublicas.Aplication.Models;
 using EmpServiciosPublicos.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous
 {
@@ -20,10 +24,11 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUploadFilesService _uploadFilesService;
         private readonly IConfiguration _configuration;
+        private readonly StorageSetting _storageSetting;
         private string? message = null;
 
         public CreateAnonymousCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateAnonymousCommandHandler>
-            logger, IEmailService emailService, IUploadFilesService uploadFilesService, IConfiguration configuration)
+            logger, IEmailService emailService, IUploadFilesService uploadFilesService, IConfiguration configuration, IOptions<StorageSetting> storageSetting)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -31,12 +36,12 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
             _emailService = emailService;
             _uploadFilesService = uploadFilesService;
             _configuration = configuration;
+            _storageSetting = storageSetting.Value;
         }
 
         public async Task<string> Handle(CreateAnonymousCommand request, CancellationToken cancellationToken)
         {
-            string formats;
-            string nameFile; 
+            string nameFile;
             string path;
             string[] formatsArray;
 
@@ -50,8 +55,7 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
             PQRSD pqrsdEntity;
             Storage storage;
 
-            formats = _configuration.GetSection("Storage:DocumentsFormats").Value;
-            formatsArray = formats.Split(',');
+            formatsArray = _storageSetting.DocumentsFormats.Split(',');
             validateFiles = request.Files!.ValidateCorrectFileFormat(formatsArray);
             if (!validateFiles)
             {
@@ -59,7 +63,7 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
                 throw new BadRequestException($"Los documentos debe de contener alguna de estas extensiones {string.Join(" ", formatsArray)}");
             }
 
-            size = long.Parse(_configuration.GetSection("Storage:Size").Value);
+            size = long.Parse(_storageSetting.Size);
             validateFileSize = request.Files!.ValidateFileSize(size);
             if (!validateFileSize)
             {
@@ -81,7 +85,7 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
                 throw new BadRequestException(message);
             }
 
-            foreach (IFormFile file in request.Files)
+            foreach (IFormFile file in request.Files!)
             {
                 (nameFile, path) = await _uploadFilesService.UploadedFileAsync(file, ProcessType.PQRSD.ToString(), Folder.Documents.ToString());
                 storage = new()
@@ -103,7 +107,10 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
             //Envios de correo electrónico
             //....
 
-            return pqrsdEntity.Ref;
+            return JsonSerializer.Serialize(pqrsdEntity, new JsonSerializerOptions()
+            {
+                ReferenceHandler = ReferenceHandler.IgnoreCycles
+            });
         }
     }
 }

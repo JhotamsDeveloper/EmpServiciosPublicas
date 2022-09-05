@@ -1,5 +1,4 @@
-﻿using EmpServiciosPublicas.Aplication.Handlers;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.DeleteAnonymous
 {
@@ -8,8 +7,8 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.DeleteAnonymo
         public DeleteAnonymousCommandValidator()
         {
             RuleFor(r => r.Id)
-                .NotNull().WithMessage("No ha indicado el {PropertyName} de la pqrsd.")
-                .NotEmpty().WithMessage("No ha indicado el {PropertyName} de la pqrsd.");
+                .NotNull().WithMessage("No ha ingresado el {PropertyName} de la pqrsd.")
+                .NotEmpty().WithMessage("No ha ingresado el {PropertyName} de la pqrsd.");
         }
     }
 }
