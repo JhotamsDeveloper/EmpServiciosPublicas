@@ -99,17 +99,9 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
                 await _unitOfWork.Complete();
             }
 
+            return SerealizeExtension<PQRSD>
+                .Serealize(pqrsdEntity);
 
-
-
-
-            //Envios de correo electrónico
-            //....
-
-            return JsonSerializer.Serialize(pqrsdEntity, new JsonSerializerOptions()
-            {
-                ReferenceHandler = ReferenceHandler.IgnoreCycles
-            });
         }
     }
 }

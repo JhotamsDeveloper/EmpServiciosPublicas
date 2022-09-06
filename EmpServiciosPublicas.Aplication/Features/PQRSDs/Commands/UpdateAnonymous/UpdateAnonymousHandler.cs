@@ -82,7 +82,6 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
                 }
             }
 
-            //Otra forma de mappear
             _mapper.Map(request, pqrsdUpdate, typeof(UpdateAnonymousCommand), typeof(PQRSD));
             pqrsdUpdate.PQRSDStatus = "Update";
             await _unitOfWork.Repository<PQRSD>().UpdateAsync(pqrsdUpdate);
@@ -109,9 +108,6 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
                 await _unitOfWork.Repository<Storage>().AddAsync(storage);
                 var idStorege = await _unitOfWork.Complete();
             }
-
-            //Envios de correo electrónico
-            //....
 
             return Unit.Value;
         }
