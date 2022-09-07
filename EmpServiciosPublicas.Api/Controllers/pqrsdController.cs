@@ -11,11 +11,11 @@ namespace EmpServiciosPublicas.Api.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class PqrsdController : ControllerBase
+    public class PQRSDController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public PqrsdController(IMediator mediator)
+        public PQRSDController(IMediator mediator)
         {
             _mediator = mediator;
         }

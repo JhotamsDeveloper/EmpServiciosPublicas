@@ -8,11 +8,8 @@ using EmpServiciosPublicas.Aplication.Models;
 using EmpServiciosPublicos.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous
 {
@@ -20,22 +17,18 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
     {
         private readonly IMapper _mapper;
         private readonly ILogger<CreateAnonymousCommandHandler> _logger;
-        private readonly IEmailService _emailService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUploadFilesService _uploadFilesService;
-        private readonly IConfiguration _configuration;
         private readonly StorageSetting _storageSetting;
         private string? message = null;
 
         public CreateAnonymousCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateAnonymousCommandHandler>
-            logger, IEmailService emailService, IUploadFilesService uploadFilesService, IConfiguration configuration, IOptions<StorageSetting> storageSetting)
+            logger, IUploadFilesService uploadFilesService, IOptions<StorageSetting> storageSetting)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
-            _emailService = emailService;
             _uploadFilesService = uploadFilesService;
-            _configuration = configuration;
             _storageSetting = storageSetting.Value;
         }
 

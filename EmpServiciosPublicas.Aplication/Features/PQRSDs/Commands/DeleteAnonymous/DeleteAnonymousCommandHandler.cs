@@ -15,16 +15,14 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.DeleteAnonymo
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<DeleteAnonymousCommand> _logger;
-        private readonly IEmailService _emailService;
         private readonly IUploadFilesService _uploadFilesService;
         private readonly IConfiguration _configuration;
 
-        public DeleteAnonymousCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<DeleteAnonymousCommand> logger, IEmailService emailService, IUploadFilesService uploadFilesService, IConfiguration configuration)
+        public DeleteAnonymousCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<DeleteAnonymousCommand> logger, IUploadFilesService uploadFilesService, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
-            _emailService = emailService;
             _uploadFilesService = uploadFilesService;
             _configuration = configuration;
         }

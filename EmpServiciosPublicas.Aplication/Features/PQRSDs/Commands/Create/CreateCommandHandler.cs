@@ -9,43 +9,43 @@ using EmpServiciosPublicos.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
-namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymous
+namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Create
 {
-    public class UpdateAnonymousHandler : IRequestHandler<UpdateAnonymousCommand>
+    public class CreateCommandHandler : IRequestHandler<CreateCommand, string>
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<UpdateAnonymousHandler> _logger;
+        private readonly ILogger<CreateCommand> _logger;
+        private readonly IEmailService _emailService;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IUploadFilesService _uploadFilesService;
         private readonly StorageSetting _storageSetting;
+        private string? message = null;
 
-        public UpdateAnonymousHandler(IMapper mapper, ILogger<UpdateAnonymousHandler> logger, IUnitOfWork unitOfWork, IUploadFilesService uploadFilesService, IOptions<StorageSetting> storageSetting)
+        public CreateCommandHandler(IMapper mapper, ILogger<CreateCommand> logger, IEmailService emailService, IUnitOfWork unitOfWork, IUploadFilesService uploadFilesService, StorageSetting storageSetting)
         {
             _mapper = mapper;
             _logger = logger;
+            _emailService = emailService;
             _unitOfWork = unitOfWork;
             _uploadFilesService = uploadFilesService;
-            _storageSetting = storageSetting.Value;
+            _storageSetting = storageSetting;
         }
 
-        public async Task<Unit> Handle(UpdateAnonymousCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateCommand request, CancellationToken cancellationToken)
         {
             string nameFile;
             string path;
             string[] formatsArray;
-            string message = string.Empty;
 
             bool validateFiles;
             bool validateFileSize;
 
             int responseComplete;
-            long size;
-            long tickes = DateTime.Now.Ticks;
+            int size;
 
-            PQRSD pqrsdUpdate;
-            IReadOnlyList<PQRSD> pqrsdOld;
+            PQRSD pqrsdEntity;
+            Storage storage;
 
             formatsArray = _storageSetting.DocumentsFormats.Split(',');
             validateFiles = request.Files!.ValidateCorrectFileFormat(formatsArray);
@@ -55,7 +55,7 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
                 throw new BadRequestException($"Los documentos debe de contener alguna de estas extensiones {string.Join(" ", formatsArray)}");
             }
 
-            size = long.Parse(_storageSetting.Size);
+            size = int.Parse(_storageSetting.Size);
             validateFileSize = request.Files!.ValidateFileSize(size);
             if (!validateFileSize)
             {
@@ -63,28 +63,13 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
                 throw new BadRequestException($"El tamaño de los documentos debe de contener máximo {size / 1048576} mb");
             }
 
-            pqrsdOld = await _unitOfWork.Repository<PQRSD>().GetAsync(x => x.Id == request.Id, t => t.OrderByDescending(s => s.Id), "Storages", true);
-            pqrsdUpdate = pqrsdOld.FirstOrDefault();
+            pqrsdEntity = _mapper.Map<PQRSD>(request);
+            pqrsdEntity.Ref = pqrsdEntity.Type!.GenericReference();
+            pqrsdEntity.Url = pqrsdEntity!.Title!.Create();
+            pqrsdEntity.PQRSDStatus = "Create";
 
-            if (pqrsdUpdate == null)
-                throw new NotFoundException(nameof(PQRSD), request.Id);
-
-
-            if (pqrsdUpdate.Storages.Any())
-            {
-                foreach (var file in pqrsdUpdate.Storages)
-                {
-                    await _uploadFilesService.DeleteUploadAsync(file.NameFile, ProcessType.PQRSD.ToString(), Folder.Documents.ToString());
-                    await _unitOfWork.Repository<Storage>().DeleteAsync(file);
-                    await _unitOfWork.Complete();
-                }
-            }
-
-            _mapper.Map(request, pqrsdUpdate, typeof(UpdateAnonymousCommand), typeof(PQRSD));
-            pqrsdUpdate.PQRSDStatus = "Update";
-            await _unitOfWork.Repository<PQRSD>().UpdateAsync(pqrsdUpdate);
+            _unitOfWork.PQRSDRepository.Add(pqrsdEntity);
             responseComplete = await _unitOfWork.Complete();
-
             if (responseComplete <= 0)
             {
                 message = "No fue posible crear un PQRSD correctamente";
@@ -92,22 +77,23 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
                 throw new BadRequestException(message);
             }
 
-            foreach (IFormFile file in request.Files)
+            foreach (IFormFile file in request.Files!)
             {
                 (nameFile, path) = await _uploadFilesService.UploadedFileAsync(file, ProcessType.PQRSD.ToString(), Folder.Documents.ToString());
-                Storage storage = new()
+                storage = new()
                 {
-                    PqrsdId = request.Id,
+                    PqrsdId = pqrsdEntity.Id,
                     NameFile = nameFile,
                     RouteFile = path,
                     Rol = Folder.Documents.ToString(),
                     Availability = true
                 };
                 await _unitOfWork.Repository<Storage>().AddAsync(storage);
-                var idStorege = await _unitOfWork.Complete();
+                await _unitOfWork.Complete();
             }
 
-            return Unit.Value;
+            return SerealizeExtension<PQRSD>
+                .Serealize(pqrsdEntity);
         }
     }
 }
