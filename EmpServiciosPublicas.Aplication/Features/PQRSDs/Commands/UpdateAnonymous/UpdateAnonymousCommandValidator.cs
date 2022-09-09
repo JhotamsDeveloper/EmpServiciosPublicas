@@ -4,9 +4,9 @@ using FluentValidation;
 
 namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymous
 {
-    internal class UpdateAnonymousValidator : AbstractValidator<UpdateAnonymousCommand>
+    internal class UpdateAnonymousCommandValidator : AbstractValidator<UpdateAnonymousCommand>
     {
-        public UpdateAnonymousValidator()
+        public UpdateAnonymousCommandValidator()
         {
             RuleFor(r => r.Title)
                 .NotEmpty().WithMessage("No ha ingresado el titulo de la pqrsd.")

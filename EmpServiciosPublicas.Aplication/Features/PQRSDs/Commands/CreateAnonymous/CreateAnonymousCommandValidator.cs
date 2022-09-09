@@ -10,11 +10,11 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymo
         {
             RuleFor(r => r.Title)
                 .NotEmpty().WithMessage("No ha ingresado el titulo de la pqrsd.")
-                .Length(5, 255).WithMessage("{PropertyName} tiene {TotalLength} letras. Debe tener una longitud entre {MinLength} y {MaxLength} letras.");
+                .Length(5, 255).WithMessage("El titulo tiene {TotalLength} carateres. Debe tener una longitud entre {MinLength} y {MaxLength} letras.");
 
             RuleFor(r => r.Descrption)
                 .NotEmpty().WithMessage("No ha ingresado la descripción de la pqrsd.")
-                .Length(50, 500).WithMessage("{PropertyName} tiene {TotalLength} letras. Debe tener una longitud entre {MinLength} y {MaxLength} letras.");
+                .Length(50, 500).WithMessage("La descripción tiene {TotalLength} carateres. Debe tener una longitud entre {MinLength} y {MaxLength} letras.");
 
             RuleFor(r => r.Type)
                 .NotEmpty().WithMessage("No ha ingresado el tipo de pqrsd.")

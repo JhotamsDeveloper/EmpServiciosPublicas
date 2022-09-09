@@ -1,10 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Create
+namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Update
 {
-    public class CreateCommand : IRequest<string>
+    public class UpdateCommand : IRequest
     {
+        public int Id { get; set; }
         public string? FirstName { get; set; }
         public string? SecondName { get; set; }
         public string? Surnames { get; set; }

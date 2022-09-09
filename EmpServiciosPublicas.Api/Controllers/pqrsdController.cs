@@ -1,5 +1,7 @@
-﻿using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous;
+﻿using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Create;
+using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.DeleteAnonymous;
+using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Update;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymous;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetPqrsdByTypePqrsd;
 using MediatR;
@@ -43,7 +45,7 @@ namespace EmpServiciosPublicas.Api.Controllers
         //[Authorize(Roles = "Administrator")]
         [HttpPost("Create")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<string>> CreatePQRSD([FromForm] CreateAnonymousCommand command)
+        public async Task<ActionResult<string>> CreatePQRSD([FromForm] CreateCommand command)
         {
             return await _mediator.Send(command);
         }
@@ -55,6 +57,18 @@ namespace EmpServiciosPublicas.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> UpdateAnonymousPQRSD([FromForm] UpdateAnonymousCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
+        //[HttpPut(Name = "UpdateAnonymousPQRSD")]
+        //[Authorize(Roles = "Administrator")]
+        [HttpPut("Update")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Update([FromForm] UpdateCommand command)
         {
             await _mediator.Send(command);
             return NoContent();

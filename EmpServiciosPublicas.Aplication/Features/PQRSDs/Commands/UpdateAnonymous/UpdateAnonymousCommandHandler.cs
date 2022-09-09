@@ -13,15 +13,15 @@ using Microsoft.Extensions.Options;
 
 namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymous
 {
-    public class UpdateAnonymousHandler : IRequestHandler<UpdateAnonymousCommand>
+    public class UpdateAnonymousCommandHandler : IRequestHandler<UpdateAnonymousCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<UpdateAnonymousHandler> _logger;
+        private readonly ILogger<UpdateAnonymousCommandHandler> _logger;
         private readonly IUploadFilesService _uploadFilesService;
         private readonly StorageSetting _storageSetting;
 
-        public UpdateAnonymousHandler(IMapper mapper, ILogger<UpdateAnonymousHandler> logger, IUnitOfWork unitOfWork, IUploadFilesService uploadFilesService, IOptions<StorageSetting> storageSetting)
+        public UpdateAnonymousCommandHandler(IMapper mapper, ILogger<UpdateAnonymousCommandHandler> logger, IUnitOfWork unitOfWork, IUploadFilesService uploadFilesService, IOptions<StorageSetting> storageSetting)
         {
             _mapper = mapper;
             _logger = logger;
