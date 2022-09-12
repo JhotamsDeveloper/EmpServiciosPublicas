@@ -3,6 +3,7 @@
     public enum Folder
     {
         Image,
-        Documents
+        Documents,
+        Icono
     }
 }

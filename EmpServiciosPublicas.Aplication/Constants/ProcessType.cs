@@ -5,6 +5,7 @@
         PQRSD,
         Licitante,
         Post,
-        Brigade
+        Brigade,
+        Category
     }
 }

@@ -40,6 +40,15 @@ namespace EmpServiciosPublicas.Aplication.Handlers
             return true;
         }
 
+        public static bool ValidateCorrectFileFormat(this IFormFile file, string[] permittedExtensions)
+        {
+            var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+            if (!(!string.IsNullOrEmpty(ext) && permittedExtensions.Contains(ext)))
+                return false;
+
+            return true;
+        }
+
         public static bool ValidateFileSize(this ICollection<IFormFile> files, long size)
         {
             foreach (var file in files)
@@ -47,6 +56,14 @@ namespace EmpServiciosPublicas.Aplication.Handlers
                 if (file.Length > size)
                     return false;
             }
+            return true;
+        }
+
+        public static bool ValidateFileSize(this IFormFile file, long size)
+        {
+            if (file.Length > size)
+                return false;
+
             return true;
         }
 
