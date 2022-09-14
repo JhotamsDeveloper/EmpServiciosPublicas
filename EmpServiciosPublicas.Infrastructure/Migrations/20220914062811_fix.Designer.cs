@@ -4,6 +4,7 @@ using EmpServiciosPublicas.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmpServiciosPublicas.Infrastructure.Migrations
 {
     [DbContext(typeof(EmpServiciosPublicosDbContext))]
-    partial class EmpServiciosPublicosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220914062811_fix")]
+    partial class fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -360,7 +362,7 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
                         .WithMany("Storages")
                         .HasForeignKey("BiddingId");
 
-                    b.HasOne("EmpServiciosPublicos.Domain.Category", "Category")
+                    b.HasOne("EmpServiciosPublicos.Domain.Category", null)
                         .WithMany("Storages")
                         .HasForeignKey("CategoryId");
 
@@ -377,8 +379,6 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
                         .HasForeignKey("TenderProposalId");
 
                     b.Navigation("Bidding");
-
-                    b.Navigation("Category");
 
                     b.Navigation("PQRSD");
 

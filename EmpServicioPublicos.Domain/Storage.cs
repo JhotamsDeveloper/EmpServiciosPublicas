@@ -20,5 +20,8 @@ namespace EmpServiciosPublicos.Domain
 
         public int? PqrsdId { get; set; }
         public virtual PQRSD? PQRSD { get; set; }
+
+        public int? CategoryId { get; set; }
+        public virtual Category? Category { get; set; }
     }
 }
