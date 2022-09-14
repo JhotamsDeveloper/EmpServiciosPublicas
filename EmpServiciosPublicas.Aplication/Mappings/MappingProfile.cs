@@ -20,6 +20,7 @@ namespace EmpServiciosPublicas.Aplication.Mappings
             CreateMap<PQRSD, CreateAnonymousCommand>().ReverseMap();
             CreateMap<PQRSD, UpdateAnonymousCommand>().ReverseMap();
             CreateMap<Category, CreateCategoryCommand>().ReverseMap();
+            CreateMap<Category, UpdateCategoryCommand>().ReverseMap();
             CreateMap<Bidding, CreateBiddingCommand>().ReverseMap();
         }
     }

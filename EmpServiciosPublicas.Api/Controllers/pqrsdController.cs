@@ -22,7 +22,6 @@ namespace EmpServiciosPublicas.Api.Controllers
             _mediator = mediator;
         }
 
-        //[HttpGet("{Id}", Name = "GetByType")]
         //[Authorize(Roles = "Administrator")]
         [HttpGet("GetPqrsdByType/{id?}")]
         [ProducesResponseType(typeof(IEnumerable<PqrsdMv>), (int)HttpStatusCode.OK)]
@@ -32,7 +31,6 @@ namespace EmpServiciosPublicas.Api.Controllers
             return Ok(result);
         }
 
-        //[HttpPost(Name = "CreateAnonymousPQRSD")]
         //[Authorize(Roles = "Administrator")]
         [HttpPost("CreateAnonymous")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -41,7 +39,6 @@ namespace EmpServiciosPublicas.Api.Controllers
             return await _mediator.Send(command);
         }
 
-        //[HttpPost(Name = "CreateAnonymousPQRSD")]
         //[Authorize(Roles = "Administrator")]
         [HttpPost("Create")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -50,7 +47,6 @@ namespace EmpServiciosPublicas.Api.Controllers
             return await _mediator.Send(command);
         }
 
-        //[HttpPut(Name = "UpdateAnonymousPQRSD")]
         //[Authorize(Roles = "Administrator")]
         [HttpPut("UpdateAnonymous")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -62,7 +58,6 @@ namespace EmpServiciosPublicas.Api.Controllers
             return NoContent();
         }
 
-        //[HttpPut(Name = "UpdateAnonymousPQRSD")]
         //[Authorize(Roles = "Administrator")]
         [HttpPut("Update")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -74,7 +69,6 @@ namespace EmpServiciosPublicas.Api.Controllers
             return NoContent();
         }
 
-        //[HttpDelete("{id}", Name = "DeleteAnonymousPQRSD")]
         //[Authorize(Roles = "Administrator")]
         [HttpDelete("Delete/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
