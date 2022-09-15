@@ -65,12 +65,11 @@ namespace EmpServiciosPublicas.Aplication.Features.Categories.Commands.Update
             }
 
             categoryOld = await _unitOfWork.Repository<Category>().GetAsync(x => x.Id == request.Id, t => t.OrderByDescending(s => s.Id), "Storages", true);
-            category = categoryOld.FirstOrDefault()!;
-
-            if (category == null)
+            
+            if (categoryOld == null)
                 throw new NotFoundException(nameof(PQRSD), request.Id);
 
-
+            category = categoryOld.FirstOrDefault()!;
             if (category.Storages.Any())
             {
                 foreach (var file in category.Storages)
@@ -84,7 +83,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Categories.Commands.Update
             _mapper.Map(request, category, typeof(UpdateCategoryCommand), typeof(Category));
             category.Url = request!.Title!.Create();
 
-            _unitOfWork.Repository<Category>().Add(category);
+            _unitOfWork.Repository<Category>().Update(category);
             responseComplete = await _unitOfWork.Complete();
             if (responseComplete <= 0)
             {

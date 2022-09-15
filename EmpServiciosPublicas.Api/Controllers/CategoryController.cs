@@ -1,4 +1,6 @@
 ﻿using EmpServiciosPublicas.Aplication.Features.Categories.Commands.Create;
+using EmpServiciosPublicas.Aplication.Features.Categories.Commands.Delete;
+using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.DeleteAnonymous;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Update;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +36,17 @@ namespace EmpServiciosPublicas.Api.Controllers
         public async Task<ActionResult> Update([FromForm] UpdateCategoryCommand command)
         {
             await _mediator.Send(command);
+            return NoContent();
+        }
+
+        //[Authorize(Roles = "Administrator")]
+        [HttpDelete("Delete/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await _mediator.Send(new DeleteCategoryCommand() { Id = id });
             return NoContent();
         }
     }

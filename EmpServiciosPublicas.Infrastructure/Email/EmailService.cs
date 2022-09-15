@@ -23,7 +23,6 @@ namespace EmpServiciosPublicas.Infrastructure.Email
             Logger = logger;
         }
 
-
         public async Task<bool> SendEmail(modelEmail email)
         {
             var client = new SendGridClient(EmailSettings.ApiKey);

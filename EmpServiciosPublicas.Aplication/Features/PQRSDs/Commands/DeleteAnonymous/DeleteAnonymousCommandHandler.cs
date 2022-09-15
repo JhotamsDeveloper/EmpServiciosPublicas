@@ -38,7 +38,7 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.DeleteAnonymo
             string message;
 
             pqrsdOld = await _unitOfWork.Repository<PQRSD>().GetAsync(x => x.Id == request.Id, t => t.OrderByDescending(s => s.Id), "Storages", true);
-            pqrsdDelete = pqrsdOld.FirstOrDefault();
+            pqrsdDelete = pqrsdOld.FirstOrDefault()!;
 
             if (pqrsdDelete == null)
                 throw new NotFoundException(nameof(PQRSD), request.Id);

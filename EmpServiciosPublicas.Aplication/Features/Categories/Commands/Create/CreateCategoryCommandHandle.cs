@@ -46,6 +46,11 @@ namespace EmpServiciosPublicas.Aplication.Features.Categories.Commands.Create
 
             Category category;
             Storage storage;
+            IReadOnlyList<Category> searchByCategory;
+
+            searchByCategory = await _unitOfWork.Repository<Category>().GetAsync(x => x.Title!.ToUpper() == request.Title.ToUpper());
+            if (searchByCategory != null)
+                throw new BadRequestException($"Ya existe una categoria {request.Title.ToLower()} con el id {searchByCategory[0].Id}");
 
             formatsArray = _storageSetting.ImagesFormats.Split(',');
             validateFiles = request.Icono!.ValidateCorrectFileFormat(formatsArray);
@@ -78,6 +83,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Categories.Commands.Create
             (nameFile, path) = await _uploadFilesService.UploadedFileAsync(request.Icono, ProcessType.Category.ToString(), Folder.Icono.ToString());
             storage = new()
             {
+                CategoryId = category.Id,
                 NameFile = nameFile,
                 RouteFile = path,
                 Rol = Folder.Icono.ToString(),
