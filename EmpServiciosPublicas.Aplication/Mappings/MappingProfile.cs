@@ -7,6 +7,7 @@ using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Create;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Update;
 using EmpServiciosPublicos.Domain;
 using AutoMapper;
+using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create;
 
 namespace EmpServiciosPublicas.Aplication.Mappings
 {
@@ -19,6 +20,7 @@ namespace EmpServiciosPublicas.Aplication.Mappings
             CreateMap<PQRSD, CreateCommand>().ReverseMap();
             CreateMap<PQRSD, CreateAnonymousCommand>().ReverseMap();
             CreateMap<PQRSD, UpdateAnonymousCommand>().ReverseMap();
+            CreateMap<Post, CreatePostCommand>().ReverseMap();
             CreateMap<Category, CreateCategoryCommand>().ReverseMap();
             CreateMap<Category, UpdateCategoryCommand>().ReverseMap();
             CreateMap<Bidding, CreateBiddingCommand>().ReverseMap();
