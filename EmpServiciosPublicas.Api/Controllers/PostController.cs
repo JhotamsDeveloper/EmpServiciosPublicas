@@ -1,4 +1,5 @@
 ﻿using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create;
+using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Delete;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -23,6 +24,17 @@ namespace EmpServiciosPublicas.Api.Controllers
         public async Task<ActionResult<string>> Create([FromForm] CreatePostCommand command)
         {
             return await _mediator.Send(command);
+        }
+
+        //[Authorize(Roles = "Administrator")]
+        [HttpPut("Update")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Update([FromForm] UpdatePostCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }

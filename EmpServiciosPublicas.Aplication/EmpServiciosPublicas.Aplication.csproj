@@ -32,7 +32,6 @@
     <Folder Include="Features\Bidding\Commands\Update\" />
     <Folder Include="Features\Bidding\Queries\" />
     <Folder Include="Features\Categories\Queries\" />
-    <Folder Include="Features\Posts\Commands\Delete\" />
     <Folder Include="Features\Posts\Commands\Update\" />
     <Folder Include="Features\Posts\Queries\" />
   </ItemGroup>
