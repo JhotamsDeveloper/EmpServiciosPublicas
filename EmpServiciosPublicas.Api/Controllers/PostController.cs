@@ -1,5 +1,5 @@
 ﻿using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create;
-using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Delete;
+using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Delete
+namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update
 {
     public class UpdatePostCommand : IRequest
     {

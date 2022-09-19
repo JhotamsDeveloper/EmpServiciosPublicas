@@ -1,7 +1,7 @@
 ﻿using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create;
 using FluentValidation;
 
-namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Delete
+namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update
 {
     public class UpdatePostCommandValidator : AbstractValidator<CreatePostCommand>
     {

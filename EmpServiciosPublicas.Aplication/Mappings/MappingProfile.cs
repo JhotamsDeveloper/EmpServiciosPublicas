@@ -8,7 +8,7 @@ using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Update;
 using EmpServiciosPublicos.Domain;
 using AutoMapper;
 using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create;
-using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Delete;
+using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update;
 
 namespace EmpServiciosPublicas.Aplication.Mappings
 {

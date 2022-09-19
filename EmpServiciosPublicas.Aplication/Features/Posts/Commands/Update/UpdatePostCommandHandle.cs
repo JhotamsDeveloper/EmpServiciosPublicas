@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Delete
+namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update
 {
     public class UpdatePostCommandHandle : IRequestHandler<UpdatePostCommand>
     {
