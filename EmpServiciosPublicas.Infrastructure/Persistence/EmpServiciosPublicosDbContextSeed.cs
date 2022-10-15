@@ -1,21 +1,19 @@
 ﻿using EmpServiciosPublicos.Domain;
-using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace EmpServiciosPublicas.Infrastructure.Persistence
 {
     public class EmpServiciosPublicosDbContextSeed
     {
-        public static async Task SeedAsync(EmpServiciosPublicosDbContext context, ILogger<EmpServiciosPublicosDbContextSeed> logger)
+        public string GetSessionUser()
         {
-            if (!context.Categories!.Any())
-            {
-                context.Categories!.AddRange(GetPreconfiguredCategory());
-                await context.SaveChangesAsync();
-                logger.LogInformation("Estamos insertando nuevos records al db {context}", typeof(EmpServiciosPublicosDbContext).Name);
-            }
+            var userName = _httpContextAccessor.HttpContext!.User?.Claims?
+                                .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            return userName!;
         }
 
-        private static IEnumerable<Category> GetPreconfiguredCategory()
+        public static IEnumerable<Category> GetPreconfiguredCategory()
         {
             return new List<Category>
             {

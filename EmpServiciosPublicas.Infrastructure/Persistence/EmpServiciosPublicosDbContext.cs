@@ -32,6 +32,12 @@ namespace EmpServiciosPublicas.Infrastructure.Persistence
             return base.SaveChangesAsync(cancellationToken);
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Category>().HasData(EmpServiciosPublicosDbContextSeed.GetPreconfiguredCategory());
+        }
+
+
         public DbSet<Bidding> Biddings { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Storage> Storages { get; set; }
