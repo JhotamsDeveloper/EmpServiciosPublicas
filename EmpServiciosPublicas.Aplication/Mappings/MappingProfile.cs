@@ -1,14 +1,15 @@
-﻿using EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetPqrsdByTypePqrsd;
-using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymous;
-using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous;
-using EmpServiciosPublicas.Aplication.Features.Categories.Commands.Create;
+﻿using AutoMapper;
 using EmpServiciosPublicas.Aplication.Features.Bidding.Commands.Create;
-using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Create;
-using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Update;
-using EmpServiciosPublicos.Domain;
-using AutoMapper;
+using EmpServiciosPublicas.Aplication.Features.Bidding.Commands.Update;
+using EmpServiciosPublicas.Aplication.Features.Categories.Commands.Create;
 using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create;
 using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update;
+using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Create;
+using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous;
+using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Update;
+using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymous;
+using EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetPqrsdByTypePqrsd;
+using EmpServiciosPublicos.Domain;
 
 namespace EmpServiciosPublicas.Aplication.Mappings
 {
@@ -26,6 +27,7 @@ namespace EmpServiciosPublicas.Aplication.Mappings
             CreateMap<Category, CreateCategoryCommand>().ReverseMap();
             CreateMap<Category, UpdateCategoryCommand>().ReverseMap();
             CreateMap<Bidding, CreateBiddingCommand>().ReverseMap();
+            CreateMap<Bidding, UpdateBiddingCommand>().ReverseMap();
         }
     }
 }

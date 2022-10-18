@@ -3,7 +3,7 @@
     public enum ProcessType
     {
         PQRSD,
-        Licitante,
+        Bidding,
         Post,
         Brigade,
         Category

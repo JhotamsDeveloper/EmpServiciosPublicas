@@ -7,8 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Bidding\Commands\Delete\**" />
+    <Compile Remove="Features\Bidding\Queries\**" />
+    <Compile Remove="Features\Categories\Queries\**" />
     <Compile Remove="Features\Post\**" />
+    <EmbeddedResource Remove="Features\Bidding\Commands\Delete\**" />
+    <EmbeddedResource Remove="Features\Bidding\Queries\**" />
+    <EmbeddedResource Remove="Features\Categories\Queries\**" />
     <EmbeddedResource Remove="Features\Post\**" />
+    <None Remove="Features\Bidding\Commands\Delete\**" />
+    <None Remove="Features\Bidding\Queries\**" />
+    <None Remove="Features\Categories\Queries\**" />
     <None Remove="Features\Post\**" />
   </ItemGroup>
 
@@ -28,10 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Bidding\Commands\Delete\" />
-    <Folder Include="Features\Bidding\Commands\Update\" />
-    <Folder Include="Features\Bidding\Queries\" />
-    <Folder Include="Features\Categories\Queries\" />
     <Folder Include="Features\Posts\Queries\" />
   </ItemGroup>
 

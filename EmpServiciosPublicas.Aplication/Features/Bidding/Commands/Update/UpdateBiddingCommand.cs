@@ -1,10 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace EmpServiciosPublicas.Aplication.Features.Bidding.Commands.Create
+namespace EmpServiciosPublicas.Aplication.Features.Bidding.Commands.Update
 {
-    public class CreateBiddingCommand: IRequest<string>
+    public class UpdateBiddingCommand : IRequest
     {
+        public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Descrption { get; set; } = string.Empty;
         public DateTime StartOfTheCall { get; set; } = DateTime.Now;

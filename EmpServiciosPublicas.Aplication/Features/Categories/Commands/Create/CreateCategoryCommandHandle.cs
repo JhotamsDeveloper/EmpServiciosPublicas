@@ -49,7 +49,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Categories.Commands.Create
             IReadOnlyList<Category> searchByCategory;
 
             searchByCategory = await _unitOfWork.Repository<Category>().GetAsync(x => x.Title!.ToUpper() == request.Title.ToUpper());
-            if (searchByCategory != null)
+            if (searchByCategory.Count != 0)
                 throw new BadRequestException($"Ya existe una categoria {request.Title.ToLower()} con el id {searchByCategory[0].Id}");
 
             formatsArray = _storageSetting.ImagesFormats.Split(',');
