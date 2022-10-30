@@ -6,6 +6,7 @@
         Bidding,
         Post,
         Brigade,
-        Category
+        Category,
+        TenderProposal
     }
 }

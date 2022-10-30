@@ -5,7 +5,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Bidding.Commands.Update
 {
     public class UpdateBiddingCommand : IRequest
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Descrption { get; set; } = string.Empty;
         public DateTime StartOfTheCall { get; set; } = DateTime.Now;

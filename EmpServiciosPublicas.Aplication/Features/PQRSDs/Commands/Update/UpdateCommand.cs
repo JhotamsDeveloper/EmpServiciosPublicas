@@ -5,7 +5,7 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Update
 {
     public class UpdateCommand : IRequest
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string? FirstName { get; set; }
         public string? SecondName { get; set; }
         public string? Surnames { get; set; }

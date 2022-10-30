@@ -44,7 +44,7 @@ namespace EmpServiciosPublicas.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(Guid id)
         {
             await _mediator.Send(new DeleteCategoryCommand() { Id = id });
             return NoContent();

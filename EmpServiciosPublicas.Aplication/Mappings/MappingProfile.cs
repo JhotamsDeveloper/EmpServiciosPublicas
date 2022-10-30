@@ -9,6 +9,7 @@ using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Update;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymous;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetPqrsdByTypePqrsd;
+using EmpServiciosPublicas.Aplication.Features.TenderProposals.Commands.Create;
 using EmpServiciosPublicos.Domain;
 
 namespace EmpServiciosPublicas.Aplication.Mappings
@@ -28,6 +29,7 @@ namespace EmpServiciosPublicas.Aplication.Mappings
             CreateMap<Category, UpdateCategoryCommand>().ReverseMap();
             CreateMap<Bidding, CreateBiddingCommand>().ReverseMap();
             CreateMap<Bidding, UpdateBiddingCommand>().ReverseMap();
+            CreateMap<TenderProposal, CreateTenderProposalCommand>().ReverseMap();
         }
     }
 }

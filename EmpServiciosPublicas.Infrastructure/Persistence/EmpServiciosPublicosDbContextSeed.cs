@@ -17,8 +17,8 @@ namespace EmpServiciosPublicas.Infrastructure.Persistence
         {
             return new List<Category>
             {
-                new Category {Id = 1, Title = "Documentos", Descrption = "Esta sessión encontrarás todos los documentos púlicos de interés a la comunidad", Url = "documentos"},
-                new Category {Id = 2, Title = "Noticias", Descrption = "Esta sessión encontrarás toda la información de los eventos, convocatirias e información de interés", Url = "noticias"},
+                new Category {Id = Guid.NewGuid(), Title = "Documentos", Descrption = "Esta sessión encontrarás todos los documentos púlicos de interés a la comunidad", Url = "documentos"},
+                new Category {Id = Guid.NewGuid(), Title = "Noticias", Descrption = "Esta sessión encontrarás toda la información de los eventos, convocatirias e información de interés", Url = "noticias"},
             };
 
         }

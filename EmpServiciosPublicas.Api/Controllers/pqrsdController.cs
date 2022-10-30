@@ -74,7 +74,7 @@ namespace EmpServiciosPublicas.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> DeleteAnonymousPQRSD(int id)
+        public async Task<ActionResult> DeleteAnonymousPQRSD(Guid id)
         {
             await _mediator.Send(new DeleteAnonymousCommand() { Id = id});
             return NoContent();

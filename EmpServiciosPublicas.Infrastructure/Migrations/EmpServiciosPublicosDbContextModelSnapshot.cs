@@ -24,11 +24,9 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
 
             modelBuilder.Entity("EmpServiciosPublicos.Domain.Bidding", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Availability")
                         .HasColumnType("bit");
@@ -67,11 +65,9 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
 
             modelBuilder.Entity("EmpServiciosPublicos.Domain.Category", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Availability")
                         .HasColumnType("bit");
@@ -103,21 +99,37 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ca60e712-3ced-4d3d-9749-2e481b612490"),
+                            Availability = false,
+                            Descrption = "Esta sessión encontrarás todos los documentos púlicos de interés a la comunidad",
+                            Title = "Documentos",
+                            Url = "documentos"
+                        },
+                        new
+                        {
+                            Id = new Guid("4f4b56f2-9a63-4bac-92ef-d392045d5497"),
+                            Availability = false,
+                            Descrption = "Esta sessión encontrarás toda la información de los eventos, convocatirias e información de interés",
+                            Title = "Noticias",
+                            Url = "noticias"
+                        });
                 });
 
             modelBuilder.Entity("EmpServiciosPublicos.Domain.Post", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Availability")
                         .HasColumnType("bit");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -149,11 +161,9 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
 
             modelBuilder.Entity("EmpServiciosPublicos.Domain.PQRSD", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("AnswerDate")
                         .HasColumnType("datetime2");
@@ -228,20 +238,18 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
 
             modelBuilder.Entity("EmpServiciosPublicos.Domain.Storage", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Availability")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("BiddingId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("BiddingId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -259,11 +267,11 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("PostId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("PqrsdId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("PqrsdId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Rol")
                         .IsRequired()
@@ -273,8 +281,8 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TenderProposalId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("TenderProposalId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -293,14 +301,15 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
 
             modelBuilder.Entity("EmpServiciosPublicos.Domain.TenderProposal", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Availability")
                         .HasColumnType("bit");
+
+                    b.Property<Guid>("BiddingId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CellPhone")
                         .HasColumnType("nvarchar(max)");
@@ -339,6 +348,8 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BiddingId");
 
                     b.ToTable("TenderProposals");
                 });
@@ -387,9 +398,22 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
                     b.Navigation("TenderProposal");
                 });
 
+            modelBuilder.Entity("EmpServiciosPublicos.Domain.TenderProposal", b =>
+                {
+                    b.HasOne("EmpServiciosPublicos.Domain.Bidding", "Bidding")
+                        .WithMany("TenderProposals")
+                        .HasForeignKey("BiddingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bidding");
+                });
+
             modelBuilder.Entity("EmpServiciosPublicos.Domain.Bidding", b =>
                 {
                     b.Navigation("Storages");
+
+                    b.Navigation("TenderProposals");
                 });
 
             modelBuilder.Entity("EmpServiciosPublicos.Domain.Category", b =>

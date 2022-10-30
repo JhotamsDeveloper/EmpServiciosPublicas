@@ -4,6 +4,6 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.DeleteAnonymo
 {
     public class DeleteAnonymousCommand : IRequest
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

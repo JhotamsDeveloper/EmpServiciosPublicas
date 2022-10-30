@@ -5,7 +5,7 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymo
 {
     public class UpdateAnonymousCommand : IRequest
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Descrption { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;

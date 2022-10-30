@@ -1,14 +1,10 @@
-﻿using EmpServiciosPublicos.Domain.Common;
+﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 
-namespace EmpServiciosPublicos.Domain
+namespace EmpServiciosPublicas.Aplication.Features.TenderProposals.Commands.Create
 {
-    public class TenderProposal: Audit
+    public class CreateTenderProposalCommand : IRequest<string>
     {
-        public TenderProposal()
-        {
-            Storages = new HashSet<Storage>();
-        }
-
         public string? FirstName { get; set; }
         public string? SecondName { get; set; }
         public string? Surnames { get; set; }
@@ -17,8 +13,7 @@ namespace EmpServiciosPublicos.Domain
         public string? Email { get; set; }
         public string? Phone { get; set; }
         public string? CellPhone { get; set; }
-        public ICollection<Storage> Storages { get; set; }
         public Guid BiddingId { get; set; }
-        public Bidding Bidding { get; set; }
+        public IFormFile File { get; set; } = default!;
     }
 }

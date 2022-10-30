@@ -1,5 +1,7 @@
-﻿using System.Text.Json;
+﻿using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Unicode;
 
 namespace EmpServiciosPublicas.Aplication.Handlers
 {
@@ -9,8 +11,8 @@ namespace EmpServiciosPublicas.Aplication.Handlers
         {
             return JsonSerializer.Serialize(model, options ?? new JsonSerializerOptions()
             {
-                WriteIndented = true,
                 ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
             });
         }
