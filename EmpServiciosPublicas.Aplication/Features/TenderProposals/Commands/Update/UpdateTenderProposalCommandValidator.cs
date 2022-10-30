@@ -1,17 +1,20 @@
 ﻿using FluentValidation;
 
-namespace EmpServiciosPublicas.Aplication.Features.TenderProposals.Commands.Create
+namespace EmpServiciosPublicas.Aplication.Features.TenderProposals.Commands.Update
 {
-    public class CreateTenderProposalCommandValidator : AbstractValidator<CreateTenderProposalCommand>
+    public class UpdateTenderProposalCommandValidator : AbstractValidator<UpdateTenderProposalCommand>
     {
-        public CreateTenderProposalCommandValidator()
+        public UpdateTenderProposalCommandValidator()
         {
+            RuleFor(r => r.Id)
+                .NotNull().WithMessage("No ha ingresado el id de la propuesta de la convocatoria.");
+
             RuleFor(r => r.BiddingId)
                 .NotNull().WithMessage("No ha ingresado el id de la convocatoria.");
 
             RuleFor(r => r.FirstName)
-                            .NotEmpty().WithMessage("No ha ingresado el primer nombre.")
-                            .Length(5, 100).WithMessage("El primer nombre tiene {TotalLength} carateres. Debe tener una longitud entre {MinLength} y {MaxLength} carateres.");
+                .NotEmpty().WithMessage("No ha ingresado el primer nombre.")
+                .Length(5, 100).WithMessage("El primer nombre tiene {TotalLength} carateres. Debe tener una longitud entre {MinLength} y {MaxLength} carateres.");
 
             RuleFor(r => r.Surnames)
                 .NotEmpty().WithMessage("No ha ingresado los apellidos.")

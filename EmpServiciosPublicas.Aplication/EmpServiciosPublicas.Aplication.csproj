@@ -38,8 +38,6 @@
 
   <ItemGroup>
     <Folder Include="Features\Posts\Queries\" />
-    <Folder Include="Features\TenderProposals\Commands\Delete\" />
-    <Folder Include="Features\TenderProposals\Commands\Update\" />
     <Folder Include="Features\TenderProposals\Queries\" />
   </ItemGroup>
 
