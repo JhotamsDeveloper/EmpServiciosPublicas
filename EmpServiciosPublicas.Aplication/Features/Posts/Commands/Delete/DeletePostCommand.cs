@@ -4,6 +4,6 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Delete
 {
     public class DeletePostCommand : IRequest
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

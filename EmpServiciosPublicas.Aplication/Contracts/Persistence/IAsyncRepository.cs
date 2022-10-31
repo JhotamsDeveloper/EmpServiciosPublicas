@@ -5,6 +5,7 @@ namespace EmpServiciosPublicas.Aplication.Contracts.Persistence
     public interface IAsyncRepository<T> where T : class
     {
         Task<IReadOnlyList<T>> GetAllAsync();
+        Task<IReadOnlyList<T>> GetAllAsync(string? includeString1 = null, string? includeString2 = null, string? includeString3 = null);
         Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate);
         Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeString = null, bool disableTracking = true);

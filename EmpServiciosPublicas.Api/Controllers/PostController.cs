@@ -1,5 +1,6 @@
 ﻿using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create;
 using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update;
+using EmpServiciosPublicas.Aplication.Features.Posts.Queries.GetAllPosts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -35,6 +36,14 @@ namespace EmpServiciosPublicas.Api.Controllers
         {
             await _mediator.Send(command);
             return NoContent();
+        }
+
+        [HttpGet("GetAll")]
+        [ProducesResponseType(typeof(IEnumerable<GetAllPostsMV>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<GetAllPostsMV>>> GetAllPQRSD()
+        {
+            var result = await _mediator.Send(new GetAllPostsQueries());
+            return Ok(result);
         }
     }
 }

@@ -19,6 +19,22 @@ namespace EmpServiciosPublicas.Infrastructure.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
+        public async Task<IReadOnlyList<T>> GetAllAsync(string? includeString1 = null, string? includeString2 = null, string? includeString3 = null)
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            if (!string.IsNullOrWhiteSpace(includeString1))
+                query = query.Include(includeString1);
+
+            if (!string.IsNullOrWhiteSpace(includeString2))
+                query = query.Include(includeString2);
+
+            if (!string.IsNullOrWhiteSpace(includeString3))
+                query = query.Include(includeString3);
+
+            return await query.ToListAsync();
+        }
+
         public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate) 
         {
             return await _context.Set<T>().Where(predicate).ToListAsync();
