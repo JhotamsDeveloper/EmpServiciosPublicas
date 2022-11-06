@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using EmpServiciosPublicas.Aplication.Specifications;
+using System.Linq.Expressions;
 
 namespace EmpServiciosPublicas.Aplication.Contracts.Persistence
 {
@@ -19,5 +20,10 @@ namespace EmpServiciosPublicas.Aplication.Contracts.Persistence
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);
+
+        Task<T> GetByIdWhithSpec(ISpecification<T> spec);
+        Task<IReadOnlyList<T>> GetAllWithSpec(ISpecification<T> spec);
+        Task<int> CountAsync(ISpecification<T> spec);
+
     }
 }

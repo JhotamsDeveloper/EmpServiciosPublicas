@@ -1,6 +1,6 @@
 ﻿using EmpServiciosPublicos.Domain;
 
-namespace EmpServiciosPublicas.Aplication.Features.Posts.Queries.GetAllPosts
+namespace EmpServiciosPublicas.Aplication.Features.Posts.Queries.VMs
 {
     public class GetAllPostsMV
     {

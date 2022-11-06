@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EmpServiciosPublicas.Aplication.Contracts.Persistence;
+using EmpServiciosPublicas.Aplication.Features.Posts.Queries.VMs;
 using EmpServiciosPublicos.Domain;
 using MediatR;
 

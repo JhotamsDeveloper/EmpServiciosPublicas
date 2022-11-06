@@ -1,11 +1,14 @@
 ﻿using EmpServiciosPublicas.Aplication.Contracts.Persistence;
+using EmpServiciosPublicas.Aplication.Specifications;
 using EmpServiciosPublicas.Infrastructure.Persistence;
+using EmpServiciosPublicas.Infrastructure.Specification;
+using EmpServiciosPublicos.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace EmpServiciosPublicas.Infrastructure.Repositories
 {
-    public class RepositoryBase<T> : IAsyncRepository<T> where T : class
+    public class RepositoryBase<T> : IAsyncRepository<T> where T : BaseDomain
     {
         protected readonly EmpServiciosPublicosDbContext _context;
 
@@ -121,6 +124,26 @@ namespace EmpServiciosPublicas.Infrastructure.Repositories
         public void Delete(T entity)
         {
             _context.Set<T>().Remove(entity);
+        }
+
+        public async Task<T> GetByIdWhithSpec(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).FirstOrDefaultAsync();
+        }
+
+        public async Task<IReadOnlyList<T>> GetAllWithSpec(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).ToListAsync();
+        }
+
+        public async Task<int> CountAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).CountAsync();
+        }
+
+        public IQueryable<T> ApplySpecification(ISpecification<T> spec)
+        {
+            return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), spec);
         }
     }
 }
