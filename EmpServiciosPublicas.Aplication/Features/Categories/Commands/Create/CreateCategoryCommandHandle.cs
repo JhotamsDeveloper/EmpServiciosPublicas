@@ -68,8 +68,12 @@ namespace EmpServiciosPublicas.Aplication.Features.Categories.Commands.Create
                 throw new BadRequestException($"El tamaño del icono debe de contener máximo {size / 1048576} mb");
             }
 
+            (nameFile, path) = await _uploadFilesService.UploadedFileAsync(request.Icono, ProcessType.Category.ToString(), Folder.Icono.ToString());
+
             category = _mapper.Map<Category>(request);
             category.Url = request!.Title!.Create();
+            category.RouteIcono = path;
+            category.NameIcono = nameFile;
 
             _unitOfWork.Repository<Category>().Add(category);
             responseComplete = await _unitOfWork.Complete();
@@ -79,25 +83,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Categories.Commands.Create
                 _logger.LogError(message);
                 throw new BadRequestException(message);
             }
-
-            (nameFile, path) = await _uploadFilesService.UploadedFileAsync(request.Icono, ProcessType.Category.ToString(), Folder.Icono.ToString());
-            storage = new()
-            {
-                CategoryId = category.Id,
-                NameFile = nameFile,
-                RouteFile = path,
-                Rol = Folder.Icono.ToString(),
-                Availability = true
-            };
-            await _unitOfWork.Repository<Storage>().AddAsync(storage);
-            responseComplete = await _unitOfWork.Complete();
-            if (responseComplete <= 0)
-            {
-                message = "No fue posible crear una categoria correctamente";
-                _logger.LogError(message);
-                throw new BadRequestException(message);
-            }
-
+ 
             return SerealizeExtension<Category>.Serealize(category);
         }
     }

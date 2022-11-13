@@ -36,30 +36,16 @@ namespace EmpServiciosPublicas.Aplication.Features.Categories.Commands.Delete
             IReadOnlyList<Category> categoryOld;
 
             string message;
-            categoryOld = await _unitOfWork.Repository<Category>().GetAsync(x => x.Id == request.Id, t => t.OrderByDescending(s => s.Id), "Storages", true);
+            categoryOld = await _unitOfWork.Repository<Category>().GetAsync(x => x.Id == request.Id, t => t.OrderByDescending(s => s.Id), string.Empty, true);
             categoryDelete = categoryOld.FirstOrDefault()!;
 
             if (categoryDelete == null)
                 throw new NotFoundException(nameof(Category), request.Id);
 
-            if (categoryDelete.Storages.Any())
-            {
-                foreach (var file in categoryDelete.Storages)
-                {
-                    await _unitOfWork.Repository<Storage>().DeleteAsync(file);
-                }
-            }
-
             await _unitOfWork.Repository<Category>().DeleteAsync(categoryDelete);
             responseComplete = await _unitOfWork.Complete();
 
-            if (categoryDelete.Storages.Any())
-            {
-                foreach (var file in categoryDelete.Storages)
-                {
-                    await _uploadFilesService.DeleteUploadAsync(file.NameFile, ProcessType.Category.ToString(), Folder.Icono.ToString());
-                }
-            }
+            await _uploadFilesService.DeleteUploadAsync(categoryDelete.NameIcono!, ProcessType.Category.ToString(), Folder.Icono.ToString());
 
             message = $"La categoria con id {request.Id} fue elimado exitosamente";
             _logger.LogInformation(message);

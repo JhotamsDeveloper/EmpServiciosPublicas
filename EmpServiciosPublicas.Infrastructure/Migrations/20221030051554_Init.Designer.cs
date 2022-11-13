@@ -65,7 +65,7 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
                     b.ToTable("Biddings");
                 });
 
-            modelBuilder.Entity("EmpServiciosPublicos.Domain.Category", b =>
+            modelBuilder.Entity("EmpServiciosPublicos.Domain.CategoryMV", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -358,13 +358,13 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
 
             modelBuilder.Entity("EmpServiciosPublicos.Domain.Post", b =>
                 {
-                    b.HasOne("EmpServiciosPublicos.Domain.Category", "Category")
+                    b.HasOne("EmpServiciosPublicos.Domain.CategoryMV", "CategoryMV")
                         .WithMany("Posts")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
+                    b.Navigation("CategoryMV");
                 });
 
             modelBuilder.Entity("EmpServiciosPublicos.Domain.Storage", b =>
@@ -373,7 +373,7 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
                         .WithMany("Storages")
                         .HasForeignKey("BiddingId");
 
-                    b.HasOne("EmpServiciosPublicos.Domain.Category", "Category")
+                    b.HasOne("EmpServiciosPublicos.Domain.CategoryMV", "CategoryMV")
                         .WithMany("Storages")
                         .HasForeignKey("CategoryId");
 
@@ -391,7 +391,7 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
 
                     b.Navigation("Bidding");
 
-                    b.Navigation("Category");
+                    b.Navigation("CategoryMV");
 
                     b.Navigation("PQRSD");
 
@@ -418,7 +418,7 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
                     b.Navigation("TenderProposals");
                 });
 
-            modelBuilder.Entity("EmpServiciosPublicos.Domain.Category", b =>
+            modelBuilder.Entity("EmpServiciosPublicos.Domain.CategoryMV", b =>
                 {
                     b.Navigation("Posts");
 

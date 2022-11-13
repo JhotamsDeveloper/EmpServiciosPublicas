@@ -11,6 +11,7 @@ namespace EmpServiciosPublicas.Aplication.Specifications.PostPaginationSettings
                 )
         {
             ApplyPaging(settingsParams.PageSize * (settingsParams.PageIndex - 1), settingsParams.PageSize);
+            AddInclude(x => x.Storages);
 
             if (!string.IsNullOrEmpty(settingsParams.Sort))
             {

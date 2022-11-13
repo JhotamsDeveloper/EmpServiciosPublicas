@@ -9,6 +9,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Queries.VMs
         public string? Title { get; set; } 
         public string? Descrption { get; set; }
         public Guid? CategoryId { get; set; }
+        public virtual CategoryMV? Category { get; set; }
         public ICollection<Storage>? Storages { get; set; }
     }
 }

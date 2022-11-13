@@ -4,6 +4,7 @@ using EmpServiciosPublicas.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmpServiciosPublicas.Infrastructure.Migrations
 {
     [DbContext(typeof(EmpServiciosPublicosDbContext))]
-    partial class EmpServiciosPublicosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221113072233_update-category")]
+    partial class updatecategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,7 +108,7 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("26ef4d6c-5796-44c0-b56d-8032a7ecb128"),
+                            Id = new Guid("d7730f72-0748-4aca-b821-abc0893581c3"),
                             Availability = false,
                             Descrption = "Esta sessión encontrarás todos los documentos púlicos de interés a la comunidad",
                             Title = "Documentos",
@@ -114,7 +116,7 @@ namespace EmpServiciosPublicas.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7b09f267-43f4-4455-b1eb-a2e6300f3895"),
+                            Id = new Guid("35aef29a-1e7c-4d4d-a2c0-bf582e75a27b"),
                             Availability = false,
                             Descrption = "Esta sessión encontrarás toda la información de los eventos, convocatirias e información de interés",
                             Title = "Noticias",

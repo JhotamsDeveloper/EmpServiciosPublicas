@@ -7,11 +7,10 @@ namespace EmpServiciosPublicos.Domain
         public Category()
         {
             Posts = new HashSet<Post>();
-            Storages = new HashSet<Storage>();
         }
 
-        public string? Icono { get; set; }
+        public string? NameIcono { get; set; }
+        public string? RouteIcono { get; set; }
         public ICollection<Post>? Posts { get; set; }
-        public ICollection<Storage>? Storages { get; set; }
     }
 }

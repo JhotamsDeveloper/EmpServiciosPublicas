@@ -9,7 +9,6 @@
         public string? Search { get; set; }
         public int PageIndex { get; set; } = 1;
 
-
         public int PageSize { 
             get => pageSize; 
             set => pageSize = (value > maxPageSize) ? maxPageSize : value; 

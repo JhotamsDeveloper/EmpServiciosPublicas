@@ -34,6 +34,10 @@ namespace EmpServiciosPublicas.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Storage>().Ignore(x => x.Title);
+            builder.Entity<Storage>().Ignore(x => x.Url);
+            builder.Entity<Storage>().Ignore(x => x.Descrption);
+
             builder.Entity<Category>().HasData(EmpServiciosPublicosDbContextSeed.GetPreconfiguredCategory());
         }
 
