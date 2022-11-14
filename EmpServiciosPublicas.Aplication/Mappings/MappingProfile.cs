@@ -33,7 +33,8 @@ namespace EmpServiciosPublicas.Aplication.Mappings
             
             
             CreateMap<CategoryMV, Category>().ReverseMap()
-                .ForMember(x => x.Icono!, y => y.MapFrom(a => a.RouteIcono));
+                .ForMember(x => x.Icono!, y => y.MapFrom(a => a.RouteIcono))
+                .ForMember(x => x.Name, y => y.MapFrom(a => a.Title));
             CreateMap<Storage, StorageMV>().ReverseMap();
 
             CreateMap<Post, PostResponse>();
