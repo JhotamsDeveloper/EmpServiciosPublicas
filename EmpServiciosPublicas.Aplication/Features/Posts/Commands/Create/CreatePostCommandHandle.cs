@@ -1,24 +1,20 @@
-﻿using EmpServiciosPublicas.Aplication.Contracts.Insfrastructure;
+﻿using AutoMapper;
+using EmpServiciosPublicas.Aplication.Constants;
+using EmpServiciosPublicas.Aplication.Contracts.Insfrastructure;
 using EmpServiciosPublicas.Aplication.Contracts.Persistence;
 using EmpServiciosPublicas.Aplication.Exceptions;
-using EmpServiciosPublicas.Aplication.Constants;
+using EmpServiciosPublicas.Aplication.Features.Posts.Models;
 using EmpServiciosPublicas.Aplication.Handlers;
 using EmpServiciosPublicas.Aplication.Models;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
 using EmpServiciosPublicos.Domain;
-using Microsoft.AspNetCore.Http;
-using AutoMapper;
 using MediatR;
-using System.Drawing;
-using System.IO;
-using static System.Net.WebRequestMethods;
-using System.Collections.Generic;
-using EmpServiciosPublicas.Aplication.Features.Posts.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
 {
-    public class CreatePostCommandHandle : IRequestHandler<CreatePostCommand, string>
+    public class CreatePostCommandHandle : IRequestHandler<CreatePostCommand, PostResponse>
     {
         private readonly IMapper _mapper;
         private readonly ILogger<CreatePostCommandHandle> _logger;
@@ -35,7 +31,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
             _storageSetting = storageSetting.Value;
         }
 
-        public async Task<string> Handle(CreatePostCommand request, CancellationToken cancellationToken)
+        public async Task<PostResponse> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
             string[] supportedFormats;
             int responseComplete;
@@ -60,8 +56,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
             await SaveFiles(request.Documents!, supportedFormats, Folder.Documents.ToString(), "documento", postEntity.Id);
 
             _mapper.Map(postEntity, response, typeof(Post), typeof(PostResponse));
-            return SerealizeExtension<PostResponse>
-                .Serealize(response);
+            return response;
         }
 
         private async Task ValidateCategory(CreatePostCommand request)
@@ -69,7 +64,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
             var category = await _unitOfWork.Repository<Category>().GetAsync(x => x.Id.Equals(request.CategoryId));
             if (category.Count == 0)
                 BadRequestError("No se encontro ningún id para la categoría");
-         }
+        }
 
         private async Task SaveFiles(ICollection<IFormFile> files, string[] supportedFormats, string folder, string folderDescription, Guid postEntityId)
         {
@@ -79,7 +74,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
 
             bool validateFiles;
             bool validateFileSize;
-            
+
             int size;
 
             if (files != null && files.Any())
@@ -101,7 +96,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
                         PostId = postEntityId,
                         NameFile = nameFile,
                         RouteFile = path,
-                        Rol = Folder.Image.ToString(),
+                        Rol = folder,
                         Availability = true
                     };
                     await _unitOfWork.Repository<Storage>().AddAsync(storage);

@@ -1,9 +1,10 @@
-﻿using MediatR;
+﻿using EmpServiciosPublicas.Aplication.Features.Posts.Models;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 
 namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
 {
-    public class CreatePostCommand : IRequest<string>
+    public class CreatePostCommand : IRequest<PostResponse>
     {
         public Guid CategoryId { get; set; }
         public string Title { get; set; } = default!;

@@ -1,4 +1,5 @@
 ﻿using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create;
+using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Delete;
 using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update;
 using EmpServiciosPublicas.Aplication.Features.Posts.Models;
 using EmpServiciosPublicas.Aplication.Features.Posts.Queries.GetAllPosts;
@@ -25,7 +26,7 @@ namespace EmpServiciosPublicas.Api.Controllers
         //[Authorize(Roles = "Administrator")]
         [HttpPost("Create")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<string>> Create([FromForm] CreatePostCommand command)
+        public async Task<ActionResult<PostResponse>> Create([FromForm] CreatePostCommand command)
         {
             return await _mediator.Send(command);
         }
@@ -38,6 +39,17 @@ namespace EmpServiciosPublicas.Api.Controllers
         public async Task<ActionResult> Update([FromForm] UpdatePostCommand command)
         {
             await _mediator.Send(command);
+            return NoContent();
+        }
+
+        //[Authorize(Roles = "Administrator")]
+        [HttpDelete("Delete/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            await _mediator.Send(new DeletePostCommand() { Id = id });
             return NoContent();
         }
 

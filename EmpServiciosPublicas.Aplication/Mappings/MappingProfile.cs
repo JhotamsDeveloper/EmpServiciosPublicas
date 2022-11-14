@@ -30,24 +30,22 @@ namespace EmpServiciosPublicas.Aplication.Mappings
             CreateMap<Post, CreatePostCommand>().ReverseMap();
             CreateMap<Post, UpdatePostCommand>().ReverseMap();
             CreateMap<Post, GetAllPostsMV>().ReverseMap();
-            
-            
-            CreateMap<CategoryMV, Category>().ReverseMap()
-                .ForMember(x => x.Icono!, y => y.MapFrom(a => a.RouteIcono))
-                .ForMember(x => x.Name, y => y.MapFrom(a => a.Title));
-            CreateMap<Storage, StorageMV>().ReverseMap();
-
             CreateMap<Post, PostResponse>();
-
-            CreateMap<Category, CreateCategoryCommand>().ReverseMap();
-            CreateMap<Category, UpdateCategoryCommand>().ReverseMap();
-
+            
+            CreateMap<Storage, StorageMV>().ReverseMap();
+            
             CreateMap<Bidding, CreateBiddingCommand>().ReverseMap();
             CreateMap<Bidding, UpdateBiddingCommand>().ReverseMap();
 
             CreateMap<TenderProposal, CreateTenderProposalCommand>().ReverseMap();
             CreateMap<TenderProposal, UpdateTenderProposalCommand>().ReverseMap();
             CreateMap<TenderProposal, DeleteTenderProposalCommand>().ReverseMap();
+
+            CreateMap<Category, UpdateCategoryCommand>().ReverseMap();
+            CreateMap<Category, CreateCategoryCommand>().ReverseMap();
+            CreateMap<CategoryMV, Category>().ReverseMap()
+                .ForMember(x => x.Icono!, y => y.MapFrom(a => a.RouteIcono))
+                .ForMember(x => x.Name, y => y.MapFrom(a => a.Title));
         }
     }
 }
