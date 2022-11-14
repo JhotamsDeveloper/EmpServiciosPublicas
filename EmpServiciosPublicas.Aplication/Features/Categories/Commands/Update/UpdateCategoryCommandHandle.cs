@@ -70,11 +70,11 @@ namespace EmpServiciosPublicas.Aplication.Features.Categories.Commands.Update
             if (categoryOld == null)
                 throw new NotFoundException(nameof(PQRSD), request.Id);
 
-            var existCategory = categoryOld.All(c => c.Title == request.Title);
+            var existCategory = categoryOld.All(c => c.Title!.ToUpper() == request.Title.ToUpper());
             if (existCategory)
             {
                 _logger.LogError(message);
-                throw new BadRequestException($"Ya existe una categoria con el mismo título");
+                throw new BadRequestException($"Ya existe una categoria llamada {request.Title.ToLower()}");
             }
 
             category = categoryOld.FirstOrDefault()!;

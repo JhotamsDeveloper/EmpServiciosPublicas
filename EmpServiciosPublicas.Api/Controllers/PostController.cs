@@ -1,8 +1,8 @@
 ﻿using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create;
 using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update;
+using EmpServiciosPublicas.Aplication.Features.Posts.Models;
 using EmpServiciosPublicas.Aplication.Features.Posts.Queries.GetAllPosts;
 using EmpServiciosPublicas.Aplication.Features.Posts.Queries.PaginationPost;
-using EmpServiciosPublicas.Aplication.Features.Posts.Queries.VMs;
 using EmpServiciosPublicas.Aplication.Features.Shared.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -52,7 +52,7 @@ namespace EmpServiciosPublicas.Api.Controllers
         [HttpGet("Pagination", Name = "Pagination of posts")]
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<PaginationResponse<PostVm>>> Pagination([FromQuery] PaginationPostQuery query)
+        public async Task<ActionResult<PaginationResponse<PostResponse>>> Pagination([FromQuery] PaginationPostQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);

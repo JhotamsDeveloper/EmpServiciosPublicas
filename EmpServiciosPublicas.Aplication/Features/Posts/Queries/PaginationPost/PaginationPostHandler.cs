@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EmpServiciosPublicas.Aplication.Contracts.Persistence;
-using EmpServiciosPublicas.Aplication.Features.Posts.Queries.VMs;
+using EmpServiciosPublicas.Aplication.Features.Posts.Models;
 using EmpServiciosPublicas.Aplication.Features.Shared.Queries;
 using EmpServiciosPublicas.Aplication.Specifications.PostPaginationSettings;
 using EmpServiciosPublicos.Domain;
@@ -8,7 +8,7 @@ using MediatR;
 
 namespace EmpServiciosPublicas.Aplication.Features.Posts.Queries.PaginationPost
 {
-    public class PaginationPostHandler : IRequestHandler<PaginationPostQuery, PaginationResponse<PostVm>>
+    public class PaginationPostHandler : IRequestHandler<PaginationPostQuery, PaginationResponse<PostResponse>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -19,7 +19,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Queries.PaginationPost
             _mapper = mapper;
         }
 
-        public async Task<PaginationResponse<PostVm>> Handle(PaginationPostQuery request, CancellationToken cancellationToken)
+        public async Task<PaginationResponse<PostResponse>> Handle(PaginationPostQuery request, CancellationToken cancellationToken)
         {
             PostPaginationSettingsParams settingsParams = new()
             {
@@ -38,8 +38,8 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Queries.PaginationPost
             var rounded = Math.Ceiling(Convert.ToDecimal(totalPosts) / Convert.ToDecimal(request.PageSize));
             var totalPages = Convert.ToInt32(rounded);
 
-            var data = _mapper.Map<IReadOnlyList<Post>, IReadOnlyList<PostVm>>(posts);
-            var pagination = new PaginationResponse<PostVm>()
+            var data = _mapper.Map<IReadOnlyList<Post>, IReadOnlyList<PostResponse>>(posts);
+            var pagination = new PaginationResponse<PostResponse>()
             {
                 Count = totalPosts,
                 Data = data,

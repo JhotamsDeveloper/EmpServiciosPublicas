@@ -4,7 +4,7 @@ using EmpServiciosPublicas.Aplication.Features.Bidding.Commands.Update;
 using EmpServiciosPublicas.Aplication.Features.Categories.Commands.Create;
 using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create;
 using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update;
-using EmpServiciosPublicas.Aplication.Features.Posts.Queries.VMs;
+using EmpServiciosPublicas.Aplication.Features.Posts.Models;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Create;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Update;
@@ -30,7 +30,13 @@ namespace EmpServiciosPublicas.Aplication.Mappings
             CreateMap<Post, CreatePostCommand>().ReverseMap();
             CreateMap<Post, UpdatePostCommand>().ReverseMap();
             CreateMap<Post, GetAllPostsMV>().ReverseMap();
-            CreateMap<Post, PostVm>().ReverseMap();
+            
+            
+            CreateMap<CategoryMV, Category>().ReverseMap()
+                .ForMember(x => x.Icono!, y => y.MapFrom(a => a.RouteIcono));
+            CreateMap<Storage, StorageMV>().ReverseMap();
+
+            CreateMap<Post, PostResponse>();
 
             CreateMap<Category, CreateCategoryCommand>().ReverseMap();
             CreateMap<Category, UpdateCategoryCommand>().ReverseMap();

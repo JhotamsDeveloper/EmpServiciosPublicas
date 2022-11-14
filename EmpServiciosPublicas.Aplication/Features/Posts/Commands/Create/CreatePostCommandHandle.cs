@@ -10,6 +10,11 @@ using EmpServiciosPublicos.Domain;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using MediatR;
+using System.Drawing;
+using System.IO;
+using static System.Net.WebRequestMethods;
+using System.Collections.Generic;
+using EmpServiciosPublicas.Aplication.Features.Posts.Models;
 
 namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
 {
@@ -20,7 +25,6 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUploadFilesService _uploadFilesService;
         private readonly StorageSetting _storageSetting;
-        private string? message = null;
 
         public CreatePostCommandHandle(IMapper mapper, ILogger<CreatePostCommandHandle> logger, IUnitOfWork unitOfWork, IUploadFilesService uploadFilesService, IOptions<StorageSetting> storageSetting)
         {
@@ -33,27 +37,13 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
 
         public async Task<string> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
-            string nameFile;
-            string path;
-            string[] documentFormat;
-            string[] imagesFormat;
-
-            bool validateFiles;
-            bool validateFileSize;
-
+            string[] supportedFormats;
             int responseComplete;
-            int size;
 
             Post postEntity = new();
-            Storage storage;
+            PostResponse response = new();
 
-            var category = await _unitOfWork.Repository<Category>().GetAsync(x => x.Id.Equals(request.CategoryId));
-            if (category.Count == 0)
-            {
-                message = "No se encontro ningún id para la categoría";
-                _logger.LogError(message);
-                throw new BadRequestException(message);
-            }
+            await ValidateCategory(request);
 
             _mapper.Map(request, postEntity, typeof(CreatePostCommand), typeof(Post));
             postEntity.Url = request!.Title!.Create();
@@ -61,36 +51,54 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
             await _unitOfWork.Repository<Post>().AddAsync(postEntity);
             responseComplete = await _unitOfWork.Complete();
             if (responseComplete <= 0)
-            {
-                message = "No fue posible crear el post correctamente";
-                _logger.LogError(message);
-                throw new BadRequestException(message);
-            }
+                BadRequestError("No fue posible crear el post correctamente");
 
-            if (request.Images != null && request.Images.Any())
+            supportedFormats = _storageSetting.ImagesFormats.Split(',');
+            await SaveFiles(request.Images!, supportedFormats, Folder.Image.ToString(), "imagen", postEntity.Id);
+
+            supportedFormats = _storageSetting.DocumentsFormats.Split(',');
+            await SaveFiles(request.Documents!, supportedFormats, Folder.Documents.ToString(), "documento", postEntity.Id);
+
+            _mapper.Map(postEntity, response, typeof(Post), typeof(PostResponse));
+            return SerealizeExtension<PostResponse>
+                .Serealize(response);
+        }
+
+        private async Task ValidateCategory(CreatePostCommand request)
+        {
+            var category = await _unitOfWork.Repository<Category>().GetAsync(x => x.Id.Equals(request.CategoryId));
+            if (category.Count == 0)
+                BadRequestError("No se encontro ningún id para la categoría");
+         }
+
+        private async Task SaveFiles(ICollection<IFormFile> files, string[] supportedFormats, string folder, string folderDescription, Guid postEntityId)
+        {
+            Storage storage;
+            string nameFile;
+            string path;
+
+            bool validateFiles;
+            bool validateFileSize;
+            
+            int size;
+
+            if (files != null && files.Any())
             {
-                imagesFormat = _storageSetting.ImagesFormats.Split(',');
-                validateFiles = request.Images!.ValidateCorrectFileFormat(imagesFormat);
+                validateFiles = files!.ValidateCorrectFileFormat(supportedFormats);
                 if (!validateFiles)
-                {
-                    _logger.LogError(message);
-                    throw new BadRequestException($"Las imagenes debe de contener alguna de estas extensiones {string.Join(" ", imagesFormat)}");
-                }
+                    BadRequestError($"La extensión de cada {folderDescription} debe de contener alguna de estas extensiones {string.Join(" ", supportedFormats)}");
 
                 size = int.Parse(_storageSetting.Size);
-                validateFileSize = request.Images!.ValidateFileSize(size);
+                validateFileSize = files!.ValidateFileSize(size);
                 if (!validateFileSize)
-                {
-                    _logger.LogError(message);
-                    throw new BadRequestException($"El tamaño de cada imagen debe ser máximo de {size / 1048576} mb");
-                }
+                    BadRequestError($"El tamaño de cada {folderDescription} debe ser máximo de {size / 1048576} mb");
 
-                foreach (IFormFile file in request.Images)
+                foreach (IFormFile file in files)
                 {
-                    (nameFile, path) = await _uploadFilesService.UploadedFileAsync(file, ProcessType.Post.ToString(), Folder.Image.ToString());
+                    (nameFile, path) = await _uploadFilesService.UploadedFileAsync(file, ProcessType.Post.ToString(), folder);
                     storage = new()
                     {
-                        PostId = postEntity.Id,
+                        PostId = postEntityId,
                         NameFile = nameFile,
                         RouteFile = path,
                         Rol = Folder.Image.ToString(),
@@ -100,43 +108,12 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
                     await _unitOfWork.Complete();
                 }
             }
+        }
 
-            if (request.Documents != null && request.Documents.Any())
-            {
-                documentFormat = _storageSetting.DocumentsFormats.Split(',');
-                validateFiles = request.Documents!.ValidateCorrectFileFormat(documentFormat);
-                if (!validateFiles)
-                {
-                    _logger.LogError(message);
-                    throw new BadRequestException($"Los documentos debe de contener alguna de estas extensiones {string.Join(" ", documentFormat)}");
-                }
-
-                size = int.Parse(_storageSetting.Size);
-                validateFileSize = request.Documents!.ValidateFileSize(size);
-                if (!validateFileSize)
-                {
-                    _logger.LogError(message);
-                    throw new BadRequestException($"El tamaño de cada documento debe ser máximo de {size / 1048576} mb");
-                }
-
-                foreach (IFormFile file in request.Documents)
-                {
-                    (nameFile, path) = await _uploadFilesService.UploadedFileAsync(file, ProcessType.Post.ToString(), Folder.Documents.ToString());
-                    storage = new()
-                    {
-                        PostId = postEntity.Id,
-                        NameFile = nameFile,
-                        RouteFile = path,
-                        Rol = Folder.Documents.ToString(),
-                        Availability = true
-                    };
-                    await _unitOfWork.Repository<Storage>().AddAsync(storage);
-                    await _unitOfWork.Complete();
-                }
-            }
-
-            return SerealizeExtension<Post>
-                .Serealize(postEntity);
+        private void BadRequestError(string msg)
+        {
+            _logger.LogError(msg);
+            throw new BadRequestException(msg);
         }
     }
 
