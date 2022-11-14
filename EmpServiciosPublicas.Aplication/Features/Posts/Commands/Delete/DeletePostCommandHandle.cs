@@ -1,31 +1,24 @@
-﻿using AutoMapper;
-using EmpServiciosPublicas.Aplication.Constants;
+﻿using EmpServiciosPublicas.Aplication.Constants;
 using EmpServiciosPublicas.Aplication.Contracts.Insfrastructure;
 using EmpServiciosPublicas.Aplication.Contracts.Persistence;
 using EmpServiciosPublicas.Aplication.Exceptions;
-using EmpServiciosPublicas.Aplication.Models;
 using EmpServiciosPublicos.Domain;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Delete
 {
     public class DeletePostCommandHandle : IRequestHandler<DeletePostCommand>
     {
-        private readonly IMapper _mapper;
+        private readonly IUploadFilesService _uploadFilesService;
         private readonly ILogger<DeletePostCommand> _logger;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUploadFilesService _uploadFilesService;
-        private readonly StorageSetting _storageSetting;
 
-        public DeletePostCommandHandle(IMapper mapper, ILogger<DeletePostCommand> logger, IUnitOfWork unitOfWork, IUploadFilesService uploadFilesService, IOptions<StorageSetting> storageSetting)
+        public DeletePostCommandHandle(ILogger<DeletePostCommand> logger, IUnitOfWork unitOfWork, IUploadFilesService uploadFilesService)
         {
-            _mapper = mapper;
             _logger = logger;
             _unitOfWork = unitOfWork;
             _uploadFilesService = uploadFilesService;
-            _storageSetting = storageSetting.Value;
         }
 
         public async Task<Unit> Handle(DeletePostCommand request, CancellationToken cancellationToken)
