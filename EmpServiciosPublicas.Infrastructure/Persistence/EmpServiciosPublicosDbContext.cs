@@ -19,7 +19,6 @@ namespace EmpServiciosPublicas.Infrastructure.Persistence
                     case EntityState.Added:
                         entry.Entity.CreatedDate = DateTime.Now;
                         entry.Entity.CreatedBy = "system";
-                        entry.Entity.Availability = true;
                         break;
 
                     case EntityState.Modified:

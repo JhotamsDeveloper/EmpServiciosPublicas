@@ -16,6 +16,8 @@ namespace EmpServiciosPublicas.Aplication.Specifications
 
         public Expression<Func<T, object>> OrderByDesc { get; private set; }
 
+        public bool IgnoreQueryFilters { get; private set; }
+
         public int Take { get; private set; }
 
         public int Skip { get; private set; }
@@ -43,6 +45,11 @@ namespace EmpServiciosPublicas.Aplication.Specifications
             Skip = skip;
             Take = take;
             IsPagingEnable = true;
+        }
+
+        protected void AddIgnoreQueryFilters()
+        {
+            IgnoreQueryFilters = true;
         }
 
     }

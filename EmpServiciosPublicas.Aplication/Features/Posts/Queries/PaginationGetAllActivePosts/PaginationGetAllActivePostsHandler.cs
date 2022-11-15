@@ -6,20 +6,20 @@ using EmpServiciosPublicas.Aplication.Specifications.PostPaginationSettings;
 using EmpServiciosPublicos.Domain;
 using MediatR;
 
-namespace EmpServiciosPublicas.Aplication.Features.Posts.Queries.PaginationPost
+namespace EmpServiciosPublicas.Aplication.Features.Posts.Queries.PaginationGetAllActivePosts
 {
-    public class PaginationPostHandler : IRequestHandler<PaginationPostQuery, PaginationResponse<PostResponse>>
+    public class PaginationGetAllActivePostsHandler : IRequestHandler<PaginationGetAllActivePostsQuery, PaginationResponse<PostResponse>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public PaginationPostHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public PaginationGetAllActivePostsHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public async Task<PaginationResponse<PostResponse>> Handle(PaginationPostQuery request, CancellationToken cancellationToken)
+        public async Task<PaginationResponse<PostResponse>> Handle(PaginationGetAllActivePostsQuery request, CancellationToken cancellationToken)
         {
             PostPaginationSettingsParams settingsParams = new()
             {
@@ -27,13 +27,12 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Queries.PaginationPost
                 PageSize = request.PageSize,
                 Search = request.Search,
                 Sort = request.Sort,
-                
             };
 
-            PostSpecification spec = new PostSpecification(settingsParams);
+            PaginationGetAllActivePostsSpecification spec = new(settingsParams);
             IReadOnlyList<Post> posts = await _unitOfWork.Repository<Post>().GetAllWithSpec(spec);
 
-            var sepcCount = new PostForCountingSpecification(settingsParams);
+            var sepcCount = new CounterForActivePostSpecification(settingsParams);
             var totalPosts = await _unitOfWork.Repository<Post>().CountAsync(sepcCount);
             var rounded = Math.Ceiling(Convert.ToDecimal(totalPosts) / Convert.ToDecimal(request.PageSize));
             var totalPages = Convert.ToInt32(rounded);

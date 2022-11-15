@@ -1,17 +1,20 @@
 ﻿using EmpServiciosPublicos.Domain;
+using System.Linq.Expressions;
 
 namespace EmpServiciosPublicas.Aplication.Specifications.PostPaginationSettings
 {
-    public class PostSpecification : BaseSpecification<Post>
+    public class PaginationGetAllInactivePostSpecification : BaseSpecification<Post>
     {
-        public PostSpecification(PostPaginationSettingsParams settingsParams) :
-            base(
-                    x => string.IsNullOrEmpty(settingsParams.Search) ||
-                    x.Title!.Contains(settingsParams.Search)
-                )
+        public PaginationGetAllInactivePostSpecification(PostPaginationSettingsParams settingsParams) :
+                        base(
+                                x => !x.Availability && 
+                                     (string.IsNullOrEmpty(settingsParams.Search) ||
+                                     x.Title!.Contains(settingsParams.Search))
+                            )
         {
             ApplyPaging(settingsParams.PageSize * (settingsParams.PageIndex - 1), settingsParams.PageSize);
             AddInclude(x => x.Storages);
+            AddIgnoreQueryFilters();
 
             if (!string.IsNullOrEmpty(settingsParams.Sort))
             {

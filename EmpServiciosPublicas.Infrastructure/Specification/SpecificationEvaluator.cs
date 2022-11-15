@@ -8,11 +8,6 @@ namespace EmpServiciosPublicas.Infrastructure.Specification
     {
         public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpecification<T> spec)
         {
-            if (spec.Criteria != null)
-            {
-                inputQuery = inputQuery.Where(spec.Criteria);
-            }
-
             if (spec.OrderBy != null)
             {
                 inputQuery = inputQuery.OrderBy(spec.OrderBy);
@@ -21,6 +16,16 @@ namespace EmpServiciosPublicas.Infrastructure.Specification
             if (spec.OrderByDesc != null)
             {
                 inputQuery = inputQuery.OrderBy(spec.OrderByDesc);
+            }
+
+            if (spec.IgnoreQueryFilters)
+            {
+                inputQuery = inputQuery.IgnoreQueryFilters();
+            }
+
+            if (spec.Criteria != null)
+            {
+                inputQuery = inputQuery.Where(spec.Criteria);
             }
 
             if (spec.IsPagingEnable)

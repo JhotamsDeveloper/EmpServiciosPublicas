@@ -2,8 +2,8 @@
 using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Delete;
 using EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update;
 using EmpServiciosPublicas.Aplication.Features.Posts.Models;
-using EmpServiciosPublicas.Aplication.Features.Posts.Queries.GetAllPosts;
-using EmpServiciosPublicas.Aplication.Features.Posts.Queries.PaginationPost;
+using EmpServiciosPublicas.Aplication.Features.Posts.Queries.PaginationGetAllActivePosts;
+using EmpServiciosPublicas.Aplication.Features.Posts.Queries.PaginationGetAllInactivePost;
 using EmpServiciosPublicas.Aplication.Features.Shared.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -53,18 +53,17 @@ namespace EmpServiciosPublicas.Api.Controllers
             return NoContent();
         }
 
-        [HttpGet("GetAll")]
-        [ProducesResponseType(typeof(IEnumerable<GetAllPostsMV>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IEnumerable<GetAllPostsMV>>> GetAllPQRSD()
+        [HttpGet("GetAllActivePosts", Name = "Get all active posts")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult<PaginationResponse<PostResponse>>> GetAllActivePosts([FromQuery] PaginationGetAllActivePostsQuery query)
         {
-            var result = await _mediator.Send(new GetAllPostsQueries());
+            var result = await _mediator.Send(query);
             return Ok(result);
         }
 
-        [HttpGet("Pagination", Name = "Pagination of posts")]
-
+        [HttpGet("GetAllInactivePosts", Name = "Get all inactive posts")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<PaginationResponse<PostResponse>>> Pagination([FromQuery] PaginationPostQuery query)
+        public async Task<ActionResult<PaginationResponse<PostResponse>>> GetAllInactivePosts([FromQuery] PaginationGetAllInactivePostQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);

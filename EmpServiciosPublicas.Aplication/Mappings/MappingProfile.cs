@@ -13,6 +13,7 @@ using EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetPqrsdByTypePqrs
 using EmpServiciosPublicas.Aplication.Features.TenderProposals.Commands.Create;
 using EmpServiciosPublicas.Aplication.Features.TenderProposals.Commands.Delete;
 using EmpServiciosPublicas.Aplication.Features.TenderProposals.Commands.Update;
+using EmpServiciosPublicas.Aplication.Handlers;
 using EmpServiciosPublicos.Domain;
 
 namespace EmpServiciosPublicas.Aplication.Mappings
@@ -30,7 +31,9 @@ namespace EmpServiciosPublicas.Aplication.Mappings
             CreateMap<Post, CreatePostCommand>().ReverseMap();
             CreateMap<Post, UpdatePostCommand>().ReverseMap();
             CreateMap<Post, GetAllPostsMV>().ReverseMap();
-            CreateMap<Post, PostResponse>();
+            CreateMap<Post, PostResponse>()
+                .ForMember(x => x.State, y => y
+                .MapFrom(a => a.Availability == true ? "Activado" : "Inactivo" ));
             
             CreateMap<Storage, StorageMV>().ReverseMap();
             

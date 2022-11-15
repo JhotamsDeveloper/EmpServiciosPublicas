@@ -2,9 +2,9 @@
 
 namespace EmpServiciosPublicas.Aplication.Specifications.PostPaginationSettings
 {
-    public class PostForCountingSpecification : BaseSpecification<Post>
+    public class CounterForActivePostSpecification : BaseSpecification<Post>
     {
-        public PostForCountingSpecification(PostPaginationSettingsParams settingsParams)
+        public CounterForActivePostSpecification(PostPaginationSettingsParams settingsParams)
             : base(
                     x => string.IsNullOrEmpty(settingsParams.Search) ||
                     x.Title!.Contains(settingsParams.Search)

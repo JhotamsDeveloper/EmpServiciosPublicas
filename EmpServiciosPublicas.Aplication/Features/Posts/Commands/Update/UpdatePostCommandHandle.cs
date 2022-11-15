@@ -60,15 +60,15 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update
                 BadRequestError("No fue posible actualizar el post correctamente");
 
             supportedFormats = _storageSetting.ImagesFormats.Split(',');
-            await SaveFiles(request.Images!, supportedFormats, Folder.Image.ToString(), "imagen", postEntity.Id);
+            await SaveFiles(request.Images!, supportedFormats, Folder.Image.ToString(), "imagen", request.Availability, postEntity.Id);
 
             supportedFormats = _storageSetting.DocumentsFormats.Split(',');
-            await SaveFiles(request.Documents!, supportedFormats, Folder.Documents.ToString(), "documento", postEntity.Id);
+            await SaveFiles(request.Documents!, supportedFormats, Folder.Documents.ToString(), "documento", request.Availability, postEntity.Id);
 
             return Unit.Value;
         }
 
-        private async Task SaveFiles(ICollection<IFormFile> files, string[] supportedFormats, string folder, string folderDescription, Guid postEntityId)
+        private async Task SaveFiles(ICollection<IFormFile> files, string[] supportedFormats, string folder, string folderDescription, bool availability, Guid postEntityId)
         {
             Storage storage;
             string nameFile;
@@ -99,7 +99,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update
                         NameFile = nameFile,
                         RouteFile = path,
                         Rol = folder,
-                        Availability = true
+                        Availability = availability
                     };
                     await _unitOfWork.Repository<Storage>().AddAsync(storage);
                     await _unitOfWork.Complete();

@@ -50,10 +50,10 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
                 BadRequestError("No fue posible crear el post correctamente");
 
             supportedFormats = _storageSetting.ImagesFormats.Split(',');
-            await SaveFiles(request.Images!, supportedFormats, Folder.Image.ToString(), "imagen", postEntity.Id);
+            await SaveFiles(request.Images!, supportedFormats, Folder.Image.ToString(), "imagen", request.Availability, postEntity.Id);
 
             supportedFormats = _storageSetting.DocumentsFormats.Split(',');
-            await SaveFiles(request.Documents!, supportedFormats, Folder.Documents.ToString(), "documento", postEntity.Id);
+            await SaveFiles(request.Documents!, supportedFormats, Folder.Documents.ToString(), "documento", request.Availability, postEntity.Id);
 
             _mapper.Map(postEntity, response, typeof(Post), typeof(PostResponse));
             return response;
@@ -66,7 +66,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
                 BadRequestError("No se encontro ningún id para la categoría");
         }
 
-        private async Task SaveFiles(ICollection<IFormFile> files, string[] supportedFormats, string folder, string folderDescription, Guid postEntityId)
+        private async Task SaveFiles(ICollection<IFormFile> files, string[] supportedFormats, string folder, string folderDescription, bool availability, Guid postEntityId)
         {
             Storage storage;
             string nameFile;
@@ -97,7 +97,7 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Create
                         NameFile = nameFile,
                         RouteFile = path,
                         Rol = folder,
-                        Availability = true
+                        Availability = availability
                     };
                     await _unitOfWork.Repository<Storage>().AddAsync(storage);
                     await _unitOfWork.Complete();
