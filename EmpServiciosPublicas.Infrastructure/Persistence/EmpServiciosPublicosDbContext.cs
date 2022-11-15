@@ -37,7 +37,7 @@ namespace EmpServiciosPublicas.Infrastructure.Persistence
             builder.Entity<Storage>().Ignore(x => x.Title);
             builder.Entity<Storage>().Ignore(x => x.Url);
             builder.Entity<Storage>().Ignore(x => x.Descrption);
-
+            builder.Entity<Post>().HasQueryFilter(enabled => enabled.Availability);
             builder.Entity<Category>().HasData(EmpServiciosPublicosDbContextSeed.GetPreconfiguredCategory());
         }
 
