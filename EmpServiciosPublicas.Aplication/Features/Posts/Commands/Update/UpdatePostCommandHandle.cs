@@ -46,8 +46,11 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update
 
             postEntity = post!.FirstOrDefault()!;
 
-            await DeleteFilesOld(x => x.Rol == Folder.Documents.ToString(), postEntity.Storages, Folder.Documents.ToString());
-            await DeleteFilesOld(x => x.Rol == Folder.Image.ToString(), postEntity.Storages, Folder.Image.ToString());
+            if (request.Documents != null && request.Documents.Any())
+                await DeleteFilesOld(x => x.Rol == Folder.Documents.ToString(), postEntity.Storages, Folder.Documents.ToString());
+
+            if (request.Images != null && request.Images.Any())
+                await DeleteFilesOld(x => x.Rol == Folder.Image.ToString(), postEntity.Storages, Folder.Image.ToString());
 
             category = await _unitOfWork.Repository<Category>().GetAsync(x => x.Id.Equals(request.CategoryId));
             if (category.Count == 0)
@@ -107,11 +110,11 @@ namespace EmpServiciosPublicas.Aplication.Features.Posts.Commands.Update
             }
         }
 
-        private async Task DeleteFilesOld(Func<Storage, bool> filter, ICollection<Storage> files, string folder)
+        private async Task DeleteFilesOld(Func<Storage, bool> filter, ICollection<Storage> oldFiles, string folder)
         {
-            if (files.Any())
+            if (oldFiles.Any())
             {
-                foreach (var file in files.Where(filter))
+                foreach (var file in oldFiles.Where(filter))
                 {
                     await _uploadFilesService.DeleteUploadAsync(file.NameFile, ProcessType.Post.ToString(), folder);
                     await _unitOfWork.Repository<Storage>().DeleteAsync(file);
