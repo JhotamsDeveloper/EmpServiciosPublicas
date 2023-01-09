@@ -1,6 +1,7 @@
 ﻿using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Create;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.DeleteAnonymous;
+using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Reply;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Update;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.UpdateAnonymous;
 using EmpServiciosPublicas.Aplication.Features.PQRSDs.Queries.GetPqrsdByTypePqrsd;
@@ -67,6 +68,16 @@ namespace EmpServiciosPublicas.Api.Controllers
         {
             await _mediator.Send(command);
             return NoContent();
+        }
+
+        //[Authorize(Roles = "Administrator")]
+        [HttpPut("Reply")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<string>> Reply([FromForm] ReplyCommand command)
+        {
+            return await _mediator.Send(command);
         }
 
         //[Authorize(Roles = "Administrator")]

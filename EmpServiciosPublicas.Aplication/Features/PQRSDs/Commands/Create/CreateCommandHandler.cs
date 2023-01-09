@@ -3,7 +3,6 @@ using EmpServiciosPublicas.Aplication.Constants;
 using EmpServiciosPublicas.Aplication.Contracts.Insfrastructure;
 using EmpServiciosPublicas.Aplication.Contracts.Persistence;
 using EmpServiciosPublicas.Aplication.Exceptions;
-using EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.CreateAnonymous;
 using EmpServiciosPublicas.Aplication.Handlers;
 using EmpServiciosPublicas.Aplication.Models;
 using EmpServiciosPublicos.Domain;
@@ -46,7 +45,7 @@ namespace EmpServiciosPublicas.Aplication.Features.PQRSDs.Commands.Create
             int responseComplete;
             int size;
 
-            PQRSD pqrsdEntity = new();
+            PQRSD pqrsdEntity;
             Storage storage;
 
             formatsArray = _storageSetting.DocumentsFormats.Split(',');
